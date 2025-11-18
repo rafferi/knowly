@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <!-- Достижения -->
+
                 <div class="dashboard-card">
                     <div class="card-header">
                         <h2><i class="fas fa-trophy"></i> Достижения</h2>

@@ -11,11 +11,9 @@
             <li><a href="/about" class="nav-link {{ request()->is('about') ? 'active' : '' }}">О нас</a></li>
 
             @auth
-
                 <li><a href="/dashboard" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">Кабинет</a></li>
                 <li><a href="/profile" class="nav-link {{ request()->is('profile') ? 'active' : '' }}">Профиль</a></li>
             @else
-                <!-- Меню для гостей -->
                 <li><a href="#reviews" class="nav-link">Отзывы</a></li>
                 <li><a href="#contact" class="nav-link">Контакты</a></li>
             @endauth
@@ -23,7 +21,6 @@
 
         <div class="nav-auth">
             @auth
-
                 @if(Auth::user()->avatar_url)
                     <img src="{{ Auth::user()->avatar_url }}" alt="Аватар" class="nav-avatar">
                 @else
@@ -48,7 +45,6 @@
     </div>
 </nav>
 
-
 <div class="mobile-nav">
     <ul class="mobile-nav-menu">
         <li><a href="/" class="mobile-nav-link {{ request()->is('/') ? 'active' : '' }}">Главная</a></li>
@@ -56,11 +52,9 @@
         <li><a href="/about" class="mobile-nav-link {{ request()->is('about') ? 'active' : '' }}">О нас</a></li>
 
         @auth
-
             <li><a href="/dashboard" class="mobile-nav-link {{ request()->is('dashboard') ? 'active' : '' }}">Кабинет</a></li>
             <li><a href="/profile" class="mobile-nav-link {{ request()->is('profile') ? 'active' : '' }}">Профиль</a></li>
         @else
-
             <li><a href="#reviews" class="mobile-nav-link">Отзывы</a></li>
             <li><a href="#contact" class="mobile-nav-link">Контакты</a></li>
         @endauth
@@ -80,7 +74,6 @@
 </div>
 
 <script>
-
     document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const mobileNav = document.querySelector('.mobile-nav');
@@ -93,7 +86,6 @@
             });
         }
 
-
         document.querySelectorAll('.mobile-nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenuBtn.classList.remove('active');
@@ -101,7 +93,6 @@
                 document.body.style.overflow = '';
             });
         });
-
 
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
@@ -111,7 +102,6 @@
                 navbar.classList.remove('scrolled');
             }
         });
-
 
         @guest
         if (window.location.pathname === '/') {

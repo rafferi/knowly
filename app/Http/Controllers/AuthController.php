@@ -10,19 +10,19 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Показать форму регистрации
+
     public function showLoginForm()
     {
         return view('login');
     }
 
-    // Показать форму входа
+
     public function showRegisterForm()
     {
         return view('signup');
     }
 
-    // Обработка регистрации
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [

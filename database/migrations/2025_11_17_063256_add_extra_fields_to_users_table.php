@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    public function up()
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('avatar')->nullable()->after('email');
@@ -14,13 +14,15 @@ return new class extends Migration
             $table->text('bio')->nullable()->after('phone');
             $table->string('level')->default('beginner')->after('bio');
             $table->integer('xp')->default(0)->after('level');
+            $table->integer('streak_days')->default(0)->after('xp');
+            $table->timestamp('last_activity_at')->nullable()->after('streak_days');
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['avatar', 'phone', 'bio', 'level', 'xp']);
+            $table->dropColumn(['avatar', 'phone', 'bio', 'level', 'xp', 'streak_days', 'last_activity_at']);
         });
     }
 };

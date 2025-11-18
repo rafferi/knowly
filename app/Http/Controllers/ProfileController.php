@@ -56,7 +56,7 @@ class ProfileController extends Controller
 
             $avatar->move($avatarPath, $filename);
 
-            // Удаляем старый аватар
+
             if ($user->avatar && file_exists($avatarPath . '/' . $user->avatar)) {
                 unlink($avatarPath . '/' . $user->avatar);
             }

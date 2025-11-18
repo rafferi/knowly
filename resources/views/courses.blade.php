@@ -3,8 +3,7 @@
 @section('title', 'Курсы английского языка - Knowly')
 
 @section('content')
-    <!-- Уникальная герой секция для страницы курсов -->
-    <!-- Обновленная герой секция курсов -->
+
     <section class="courses-hero-new">
         <div class="courses-hero-container-new">
             <div class="courses-hero-content-new">
@@ -25,7 +24,7 @@
                     </a>
                 </div>
 
-                <!-- Уровни английского в виде прогресс бара -->
+
                 <div class="levels-progress-new">
                     <div class="levels-track-new">
                         <div class="level-marker-new" data-level="A1">
@@ -51,7 +50,6 @@
             </div>
 
             <div class="courses-hero-visual-new">
-                <!-- Основной курс в центре -->
                 <div class="main-course-card-new">
                     <div class="course-header-new">
                         <div class="course-badge-new">Разговорный</div>
@@ -67,7 +65,7 @@
                     </div>
                 </div>
 
-                <!-- Второстепенные курсы вокруг -->
+
                 <div class="floating-course-new course-1-new">
                     <div class="course-icon-new">
                         <i class="fas fa-graduation-cap"></i>
@@ -101,7 +99,7 @@
         </div>
     </section>
 
-    <!-- Быстрый подбор курса -->
+
     <section id="quiz" class="features" style="padding: 4rem 0;">
         <div class="container">
             <div class="section-header">
@@ -149,7 +147,7 @@
         </div>
     </section>
 
-    <!-- Все курсы -->
+
     <section id="all-courses" class="pricing" style="background: var(--gray-light); padding: 6rem 0;">
         <div class="container">
             <div class="section-header">
@@ -157,7 +155,7 @@
                 <p class="section-subtitle">Выберите программу, которая подходит именно вам. Все курсы включают бесплатный пробный урок</p>
             </div>
 
-            <!-- Фильтры курсов -->
+
             <div class="courses-filters" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap;">
                 <button class="btn btn-outline active" data-filter="all">Все курсы</button>
                 <button class="btn btn-outline" data-filter="beginner">Для начинающих</button>
@@ -168,7 +166,7 @@
             </div>
 
             <div class="courses-grid">
-                <!-- Курс 1 -->
+
                 <div class="pricing-card" data-category="beginner">
                     <div class="pricing-header">
                         <h3>English Starter</h3>
@@ -194,7 +192,7 @@
                     <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
                 </div>
 
-                <!-- Курс 2 -->
+
                 <div class="pricing-card popular" data-category="conversational">
                     <div class="popular-badge">Популярный</div>
                     <div class="pricing-header">
@@ -221,7 +219,7 @@
                     <a href="/signup" class="btn btn-primary" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
                 </div>
 
-                <!-- Курс 3 -->
+
                 <div class="pricing-card" data-category="business">
                     <div class="pricing-header">
                         <h3>Business English</h3>
@@ -247,7 +245,7 @@
                     <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
                 </div>
 
-                <!-- Курс 4 -->
+
                 <div class="pricing-card" data-category="exam">
                     <div class="pricing-header">
                         <h3>IELTS Preparation</h3>
@@ -273,7 +271,7 @@
                     <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
                 </div>
 
-                <!-- Курс 5 -->
+
                 <div class="pricing-card" data-category="specialized">
                     <div class="pricing-header">
                         <h3>IT English</h3>
@@ -299,7 +297,7 @@
                     <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
                 </div>
 
-                <!-- Курс 6 -->
+
                 <div class="pricing-card" data-category="conversational">
                     <div class="pricing-header">
                         <h3>Travel English</h3>
@@ -328,7 +326,7 @@
         </div>
     </section>
 
-    <!-- Преимущества обучения -->
+
     <section class="features" style="padding: 6rem 0;">
         <div class="container">
             <div class="section-header">
@@ -388,7 +386,7 @@
         </div>
     </section>
 
-    <!-- CTA секция -->
+
     <section class="cta">
         <div class="container">
             <div class="cta-card">
@@ -417,21 +415,21 @@
 
 @section('scripts')
     <script>
-        // Фильтрация курсов
+
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.courses-filters .btn');
             const courseCards = document.querySelectorAll('.pricing-card');
 
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    // Убираем активный класс у всех кнопок
+
                     filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Добавляем активный класс текущей кнопке
+
                     this.classList.add('active');
 
                     const filter = this.getAttribute('data-filter');
 
-                    // Показываем/скрываем курсы
+
                     courseCards.forEach(card => {
                         if (filter === 'all' || card.getAttribute('data-category') === filter) {
                             card.style.display = 'block';
@@ -450,7 +448,6 @@
                 });
             });
 
-            // Анимация появления карточек при загрузке
             courseCards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
@@ -462,7 +459,6 @@
                 }, 100 + index * 100);
             });
 
-            // Анимация уровней английского
             const levelMarkers = document.querySelectorAll('.level-marker');
             levelMarkers.forEach(marker => {
                 marker.addEventListener('mouseenter', function() {
@@ -472,28 +468,26 @@
             });
         });
 
-        // Квиз подбора курса (упрощенная версия)
         function nextQuizStep() {
             const progressFill = document.querySelector('.quiz-progress-fill');
             progressFill.style.width = '50%';
 
-            // Здесь должна быть логика перехода к следующему шагу
-            // Для демонстрации просто показываем сообщение
+
             setTimeout(() => {
                 alert('Спасибо за ответ! В реальной версии здесь будет следующий вопрос квиза.');
             }, 500);
         }
 
-        // Обработка выбора варианта в квизе
+
         document.querySelectorAll('.quiz-option').forEach(option => {
             option.addEventListener('click', function() {
-                // Убираем выделение у всех вариантов
+
                 document.querySelectorAll('.quiz-option').forEach(opt => {
                     opt.style.borderColor = 'var(--nimbus-cloud)';
                     opt.style.backgroundColor = 'var(--white)';
                 });
 
-                // Выделяем выбранный вариант
+
                 this.style.borderColor = 'var(--grenadine)';
                 this.style.backgroundColor = 'rgba(223, 63, 50, 0.05)';
             });

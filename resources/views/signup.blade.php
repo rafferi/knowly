@@ -23,6 +23,14 @@
                 <p class="auth-subtitle">Создайте аккаунт для доступа ко всем курсам</p>
             </div>
 
+            <!-- Кнопка для прохождения теста -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <a href="/course-recommendation-test" class="btn" style="background: var(--light-blue); color: white; padding: 0.8rem 1.5rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; transition: all 0.3s ease;">
+                    <i class="fas fa-search"></i>
+                    Не знаете какой курс выбрать? Пройдите тест!
+                </a>
+            </div>
+
             @if($errors->any())
                 <div style="background: #ffe6e6; color: #d00; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; border: 1px solid #ffcccc;">
                     @foreach($errors->all() as $error)

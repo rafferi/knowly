@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\PlacementTestController;
+use App\Http\Controllers\CourseRecommendationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,3 +40,22 @@ Route::get('/courses', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+
+// Placement test routes
+Route::middleware('auth')->group(function () {
+    Route::get('/placement-test', [PlacementTestController::class, 'show'])->name('placement-test');
+    Route::post('/placement-test', [PlacementTestController::class, 'store'])->name('placement-test.store');
+    Route::get('/placement-test/results/{test}', [PlacementTestController::class, 'results'])->name('placement-test.results');
+});
+
+
+// Course recommendation test routes
+Route::get('/course-recommendation-test', [CourseRecommendationController::class, 'showTest'])->name('course-recommendation.test');
+Route::post('/course-recommendation-test', [CourseRecommendationController::class, 'processTest'])->name('course-recommendation.store');
+Route::get('/course-recommendation-result', [CourseRecommendationController::class, 'showResult'])->name('course-recommendation.result');
+
+
+Route::get('/free-lesson', function () {
+    return view('free-lesson');
+});

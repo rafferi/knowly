@@ -3,7 +3,7 @@
 @section('title', 'Knowly - Онлайн школа английского языка')
 
 @section('content')
-    <!-- Герой секция -->
+
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
@@ -53,7 +53,7 @@
                         <div class="image-glow"></div>
                     </div>
 
-                    <!-- Плавающие карточки -->
+
                     <div class="floating-cards-container">
                         <div class="floating-card card-1">
                             <div class="card-inner">
@@ -101,7 +101,7 @@
         </div>
     </section>
 
-    <!-- Блок статистики -->
+
     <section class="stats-section">
         <div class="container">
             <div class="stats-grid">
@@ -137,7 +137,7 @@
         </div>
     </section>
 
-    <!-- Преимущества -->
+
     <section class="features">
         <div class="container">
             <div class="section-header">
@@ -203,7 +203,6 @@
         </div>
     </section>
 
-    <!-- Процесс обучения -->
     <section class="process">
         <div class="container">
             <div class="section-header">
@@ -245,7 +244,7 @@
         </div>
     </section>
 
-    <!-- Отзывы -->
+
     <section class="testimonials">
         <div class="container">
             <div class="section-header">
@@ -331,7 +330,7 @@
         </div>
     </section>
 
-    <!-- Тарифы -->
+
     <section class="pricing">
         <div class="container">
             <div class="section-header">
@@ -391,7 +390,7 @@
         </div>
     </section>
 
-    <!-- FAQ -->
+
     <section class="faq">
         <div class="container">
             <div class="section-header">
@@ -442,7 +441,7 @@
         </div>
     </section>
 
-    <!-- CTA -->
+
     <section class="cta">
         <div class="container">
             <div class="cta-card">
@@ -468,7 +467,7 @@
         </div>
     </section>
 
-    <!-- Футер -->
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -518,7 +517,7 @@
 
 @section('scripts')
     <script>
-        // Улучшенная анимация счетчиков
+
         function animateCounters() {
             const counters = document.querySelectorAll('.stat-number[data-count]');
 
@@ -533,11 +532,11 @@
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
 
-                    // easing function для плавности
+
                     const easeOutQuart = 1 - Math.pow(1 - progress, 4);
                     const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
 
-                    // Обновляем текст
+
                     if (target === 98) {
                         counter.textContent = currentValue + '%';
                     } else if (target === 15) {
@@ -546,11 +545,11 @@
                         counter.textContent = currentValue + '+';
                     }
 
-                    // Продолжаем анимацию если не достигли цели
+
                     if (progress < 1) {
                         requestAnimationFrame(updateCounter);
                     } else {
-                        // Финальное значение
+
                         if (target === 98) {
                             counter.textContent = target + '%';
                         } else if (target === 15) {
@@ -561,12 +560,12 @@
                     }
                 }
 
-                // Запускаем анимацию
+
                 requestAnimationFrame(updateCounter);
             });
         }
 
-        // FAQ аккордеон
+
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const answer = question.nextElementSibling;
@@ -581,8 +580,6 @@
                 }
             });
         });
-
-        // Запуск анимации при скролле до секции
         function initScrollAnimation() {
             const statsSection = document.querySelector('.stats-section');
             if (!statsSection) return;
@@ -595,7 +592,7 @@
                     }
                 });
             }, {
-                threshold: 0.5 // Срабатывает когда 50% элемента видно
+                threshold: 0.5
             });
 
             observer.observe(statsSection);
