@@ -7812,3 +7812,1542 @@ input:checked + .slider:before {
         font-size: 1.2rem;
     }
 }
+
+
+/* ===== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ КНОПОК КУРСОВ ===== */
+
+/* Основные стили кнопок */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+/* Основная кнопка (красная) */
+.btn-primary {
+    background: var(--grenadine);
+    color: var(--white);
+    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+}
+
+.btn-primary:hover {
+    background: #c5362b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    color: var(--white);
+}
+
+/* Вторичная кнопка (контурная) */
+.btn-outline {
+    background: transparent;
+    color: var(--black-beauty);
+    border-color: var(--ultimate-gray);
+}
+
+.btn-outline:hover {
+    background: var(--ultimate-gray);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Специальная кнопка для "Учебный план" */
+.btn-outline-primary {
+    background: transparent;
+    color: var(--grenadine);
+    border: 2px solid var(--grenadine);
+    padding: 0.9rem 1.8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-outline-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(223, 63, 50, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.btn-outline-primary:hover::after {
+    left: 100%;
+}
+
+.btn-outline-primary:hover {
+    background: var(--grenadine);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+}
+
+/* Новая кнопка для "Учебный план" с улучшенным дизайном */
+.btn-plan {
+    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(223, 63, 50, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-plan::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-plan:hover::before {
+    left: 100%;
+}
+
+.btn-plan:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.35);
+    color: var(--white);
+}
+
+.btn-plan:active {
+    transform: translateY(-1px);
+}
+
+/* Кнопка с иконкой капюшона */
+.btn-plan i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-plan:hover i {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* ===== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ КАРТОЧЕК КУРСОВ ===== */
+.course-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.course-actions .btn-full {
+    width: 100%;
+    justify-content: center;
+}
+
+.course-actions .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.course-actions .btn-row .btn {
+    flex: 1;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Адаптивность для кнопок */
+@media (max-width: 768px) {
+    .btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .course-actions .btn-row {
+        flex-direction: column;
+    }
+
+    .course-actions .btn-row .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-plan {
+        padding: 0.9rem 1.2rem;
+    }
+}
+
+/* Анимация появления кнопок */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.course-actions .btn {
+    animation: fadeInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.course-actions .btn-full {
+    animation-delay: 0.1s;
+}
+
+.course-actions .btn-row .btn:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.course-actions .btn-row .btn:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+/* ===== ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ КАРТОЧКИ КУРСА ===== */
+.pricing-card {
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(213, 213, 216, 0.3);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(39, 39, 42, 0.15);
+    border-color: var(--grenadine);
+}
+
+.pricing-card.popular {
+    border-color: var(--grenadine);
+    background: linear-gradient(to bottom, var(--white) 0%, #fef7f7 100%);
+}
+
+.pricing-card.popular::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--grenadine);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+}
+
+/* Улучшенный внешний вид уровня курса */
+.level-badge {
+    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 0.5rem;
+    box-shadow: 0 3px 10px rgba(223, 63, 50, 0.2);
+}
+
+/* Статистика курса */
+.course-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin: 1.5rem 0;
+    border-top: 1px solid rgba(213, 213, 216, 0.3);
+    border-bottom: 1px solid rgba(213, 213, 216, 0.3);
+}
+
+.course-stats span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--ultimate-gray);
+}
+
+.course-stats i {
+    color: var(--grenadine);
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Улучшенный внешний вид заголовка курса */
+.pricing-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--black-beauty);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.pricing-header .price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--grenadine);
+    margin-bottom: 0.5rem;
+}
+
+.pricing-header .price span {
+    font-size: 1rem;
+    color: var(--ultimate-gray);
+    font-weight: 400;
+}
+
+.pricing-header p {
+    color: var(--ultimate-gray);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Список особенностей курса */
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+}
+
+.pricing-features li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(213, 213, 216, 0.2);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    color: var(--black-beauty);
+}
+
+.pricing-features li:last-child {
+    border-bottom: none;
+}
+
+.pricing-features li i {
+    color: var(--grenadine);
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+
+
+/* ===== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ КНОПОК КУРСОВ ===== */
+
+/* Основные стили кнопок */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+/* Основная кнопка (красная) */
+.btn-primary {
+    background: var(--grenadine);
+    color: var(--white);
+    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+}
+
+.btn-primary:hover {
+    background: #c5362b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    color: var(--white);
+}
+
+/* Вторичная кнопка (контурная) */
+.btn-outline {
+    background: transparent;
+    color: var(--black-beauty);
+    border-color: var(--ultimate-gray);
+}
+
+.btn-outline:hover {
+    background: var(--ultimate-gray);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Специальная кнопка для "Учебный план" */
+.btn-outline-primary {
+    background: transparent;
+    color: var(--grenadine);
+    border: 2px solid var(--grenadine);
+    padding: 0.9rem 1.8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-outline-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(223, 63, 50, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.btn-outline-primary:hover::after {
+    left: 100%;
+}
+
+.btn-outline-primary:hover {
+    background: var(--grenadine);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+}
+
+/* Новая кнопка для "Учебный план" с улучшенным дизайном */
+.btn-plan {
+    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(223, 63, 50, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-plan::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-plan:hover::before {
+    left: 100%;
+}
+
+.btn-plan:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.35);
+    color: var(--white);
+}
+
+.btn-plan:active {
+    transform: translateY(-1px);
+}
+
+/* Кнопка с иконкой капюшона */
+.btn-plan i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-plan:hover i {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* ===== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ КАРТОЧЕК КУРСОВ ===== */
+.course-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.course-actions .btn-full {
+    width: 100%;
+    justify-content: center;
+}
+
+.course-actions .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.course-actions .btn-row .btn {
+    flex: 1;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Адаптивность для кнопок */
+@media (max-width: 768px) {
+    .btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .course-actions .btn-row {
+        flex-direction: column;
+    }
+
+    .course-actions .btn-row .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-plan {
+        padding: 0.9rem 1.2rem;
+    }
+}
+
+/* Анимация появления кнопок */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.course-actions .btn {
+    animation: fadeInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.course-actions .btn-full {
+    animation-delay: 0.1s;
+}
+
+.course-actions .btn-row .btn:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.course-actions .btn-row .btn:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+/* ===== ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ КАРТОЧКИ КУРСА ===== */
+.pricing-card {
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(213, 213, 216, 0.3);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(39, 39, 42, 0.15);
+    border-color: var(--grenadine);
+}
+
+.pricing-card.popular {
+    border-color: var(--grenadine);
+    background: linear-gradient(to bottom, var(--white) 0%, #fef7f7 100%);
+}
+
+.pricing-card.popular::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--grenadine);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+}
+
+/* Улучшенный внешний вид уровня курса */
+.level-badge {
+    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 0.5rem;
+    box-shadow: 0 3px 10px rgba(223, 63, 50, 0.2);
+}
+
+/* Статистика курса */
+.course-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin: 1.5rem 0;
+    border-top: 1px solid rgba(213, 213, 216, 0.3);
+    border-bottom: 1px solid rgba(213, 213, 216, 0.3);
+}
+
+.course-stats span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--ultimate-gray);
+}
+
+.course-stats i {
+    color: var(--grenadine);
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Улучшенный внешний вид заголовка курса */
+.pricing-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--black-beauty);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.pricing-header .price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--grenadine);
+    margin-bottom: 0.5rem;
+}
+
+.pricing-header .price span {
+    font-size: 1rem;
+    color: var(--ultimate-gray);
+    font-weight: 400;
+}
+
+.pricing-header p {
+    color: var(--ultimate-gray);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Список особенностей курса */
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+}
+
+.pricing-features li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(213, 213, 216, 0.2);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    color: var(--black-beauty);
+}
+
+.pricing-features li:last-child {
+    border-bottom: none;
+}
+
+.pricing-features li i {
+    color: var(--grenadine);
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+/* ===== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ УЧЕБНОГО ПЛАНА ===== */
+.learning-plan-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding-top: 100px;
+    position: relative;
+}
+
+/* Хедер курса */
+.course-plan-header {
+    background: linear-gradient(135deg, var(--grenadine) 0%, #c5362b 100%);
+    border-radius: 24px;
+    padding: 3rem;
+    margin-bottom: 2.5rem;
+    color: white;
+    box-shadow: 0 20px 40px rgba(223, 63, 50, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.course-plan-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.05"><polygon points="1000,100 1000,0 0,100"/></svg>');
+}
+
+.course-plan-header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-plan-header .lead {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.course-meta .badge {
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.7rem 1.2rem;
+    font-weight: 500;
+    border-radius: 12px;
+}
+
+/* Карточка прогресса */
+.progress-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 1.8rem;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.progress-card h5 {
+    color: var(--black-beauty);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.progress-card .progress {
+    height: 10px;
+    background: rgba(223, 63, 50, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-card .progress-bar {
+    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    border-radius: 10px;
+}
+
+/* Навигация по неделям */
+.week-navigation {
+    margin-bottom: 3rem;
+}
+
+.week-navigation h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 1.5rem;
+}
+
+.week-buttons .btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.week-buttons .btn-secondary-new {
+    background: var(--white);
+    color: var(--black-beauty);
+    border: 2px solid var(--nimbus-cloud);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.week-buttons .btn-secondary-new:hover {
+    background: var(--grenadine);
+    color: var(--white);
+    border-color: var(--grenadine);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+}
+
+/* Модули курса */
+.modules-container .dashboard-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(39, 39, 42, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modules-container .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(39, 39, 42, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    padding: 2rem;
+    border: none;
+}
+
+.card-header h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.module-info .badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.card-body {
+    padding: 2.5rem;
+}
+
+.card-text {
+    font-size: 1.1rem;
+    color: var(--black-beauty);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.learning-objectives h5 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 1.2rem;
+}
+
+.learning-objectives ul {
+    list-style: none;
+    padding: 0;
+}
+
+.learning-objectives li {
+    padding: 0.8rem 0;
+    padding-left: 2rem;
+    position: relative;
+    color: var(--ultimate-gray);
+}
+
+.learning-objectives li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--grenadine);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.module-preview {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(213, 213, 216, 0.3);
+}
+
+.module-preview h5 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 1.5rem;
+}
+
+.module-preview .dashboard-card {
+    height: 100%;
+    border: 1px solid rgba(213, 213, 216, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.module-preview .dashboard-card:hover {
+    border-color: var(--grenadine);
+    transform: translateY(-3px);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 0.5rem;
+}
+
+.card-text.small {
+    font-size: 0.9rem;
+    color: var(--ultimate-gray);
+    line-height: 1.5;
+}
+
+/* Прогресс по неделям */
+.weekly-progress {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(213, 213, 216, 0.3);
+}
+
+.weekly-progress h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 2rem;
+}
+
+.weekly-progress .dashboard-card {
+    border: 1px solid rgba(213, 213, 216, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.weekly-progress .dashboard-card:hover {
+    border-color: var(--grenadine);
+    transform: translateY(-3px);
+}
+
+.week-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--grenadine);
+    margin-bottom: 0.5rem;
+}
+
+.weekly-progress .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 1rem;
+}
+
+.weekly-progress .progress {
+    height: 6px;
+    background: rgba(213, 213, 216, 0.3);
+    border-radius: 3px;
+    margin-bottom: 0.8rem;
+}
+
+.weekly-progress .progress-bar {
+    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    border-radius: 3px;
+}
+
+/* ===== СТИЛИ ДЛЯ СТРАНИЦЫ НЕДЕЛИ ===== */
+.week-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding-top: 100px;
+    position: relative;
+}
+
+/* Хлебные крошки */
+.breadcrumb {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(213, 213, 216, 0.5);
+    box-shadow: 0 5px 15px rgba(39, 39, 42, 0.08);
+    margin-bottom: 2rem;
+}
+
+.breadcrumb-item a {
+    color: var(--grenadine);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #c5362b;
+    transform: translateX(2px);
+}
+
+.breadcrumb-item.active {
+    color: var(--black-beauty);
+    font-weight: 600;
+}
+
+/* Заголовок недели */
+.week-header {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 30px rgba(39, 39, 42, 0.08);
+    border: 1px solid rgba(213, 213, 216, 0.3);
+}
+
+.week-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--black-beauty);
+    margin-bottom: 0.5rem;
+}
+
+.module-info .badge {
+    background: var(--grenadine);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Прогресс недели */
+.week-progress {
+    background: rgba(223, 63, 50, 0.05);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-top: 1.5rem;
+    border: 1px solid rgba(223, 63, 50, 0.1);
+}
+
+.week-progress .progress {
+    height: 10px;
+    background: rgba(223, 63, 50, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.week-progress .progress-bar {
+    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    border-radius: 5px;
+}
+
+/* Уроки недели */
+.lessons-container {
+    margin-bottom: 3rem;
+}
+
+.lessons-container h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 2rem;
+}
+
+.lessons-list .dashboard-card {
+    border: 1px solid rgba(213, 213, 216, 0.3);
+    border-radius: 16px;
+    padding: 1.8rem;
+    margin-bottom: 1.2rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.lessons-list .dashboard-card:hover {
+    border-color: var(--grenadine);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(39, 39, 42, 0.1);
+}
+
+.lessons-list .dashboard-card.border-success {
+    border-color: var(--grenadine);
+    background: rgba(223, 63, 50, 0.02);
+}
+
+.lesson-order {
+    width: 40px;
+    height: 40px;
+    background: var(--grenadine);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.lessons-list h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--black-beauty);
+    margin-bottom: 0.5rem;
+}
+
+.lesson-meta .badge {
+    background: rgba(213, 213, 216, 0.2);
+    color: var(--ultimate-gray);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.lesson-meta .text-muted {
+    font-size: 0.9rem;
+    color: var(--ultimate-gray);
+}
+
+.lesson-meta .text-primary {
+    color: var(--grenadine) !important;
+    font-weight: 500;
+}
+
+/* Кнопки уроков */
+.lessons-list .btn-primary-new {
+    background: var(--grenadine);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lessons-list .btn-primary-new:hover {
+    background: #c5362b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+}
+
+.lessons-list .btn-outline-success {
+    background: transparent;
+    color: var(--grenadine);
+    border: 2px solid var(--grenadine);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.lessons-list .btn-outline-success:hover {
+    background: var(--grenadine);
+    color: white;
+}
+
+.quick-complete-form {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(213, 213, 216, 0.3);
+}
+
+.quick-complete-form .btn-secondary-new {
+    background: transparent;
+    color: var(--grenadine);
+    border: 1px solid var(--grenadine);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.quick-complete-form .btn-secondary-new:hover {
+    background: var(--grenadine);
+    color: white;
+}
+
+/* Статистика недели */
+.stat-item {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--ultimate-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Навигация между неделями */
+.week-navigation-footer {
+    margin-top: 3rem;
+    padding: 2rem 0;
+}
+
+.week-navigation-footer .btn {
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.week-navigation-footer .btn-secondary-new {
+    background: transparent;
+    color: var(--black-beauty);
+    border: 2px solid var(--nimbus-cloud);
+}
+
+.week-navigation-footer .btn-secondary-new:hover {
+    background: var(--nimbus-cloud);
+    color: var(--white);
+    border-color: var(--nimbus-cloud);
+}
+
+.week-navigation-footer .btn-primary-new {
+    background: var(--grenadine);
+    color: white;
+    border: none;
+    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+}
+
+.week-navigation-footer .btn-primary-new:hover {
+    background: #c5362b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+}
+
+/* ===== РЕСПОНСИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .learning-plan-container,
+    .week-container {
+        padding-top: 80px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .course-plan-header {
+        padding: 2rem;
+    }
+
+    .course-plan-header h1 {
+        font-size: 2rem;
+    }
+
+    .progress-card {
+        margin-top: 1.5rem;
+        padding: 1.2rem;
+    }
+
+    .week-buttons .btn-group {
+        justify-content: center;
+    }
+
+    .week-buttons .btn-secondary-new {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+        padding: 0.6rem 1rem;
+    }
+
+    .card-header {
+        padding: 1.5rem;
+    }
+
+    .card-header h3 {
+        font-size: 1.4rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .week-header {
+        padding: 1.5rem;
+    }
+
+    .week-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .week-navigation .d-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .week-navigation .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .lessons-list .dashboard-card .row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .lesson-order {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .lessons-list .btn-group {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .stat-item {
+        padding: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .course-plan-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .course-plan-header .lead {
+        font-size: 1rem;
+    }
+
+    .course-meta .badge {
+        display: block;
+        margin: 0.3rem 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .card-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .module-info .badge {
+        display: block;
+        margin: 0.3rem 0;
+        width: fit-content;
+    }
+
+    .week-buttons .btn-secondary-new {
+        min-width: 100px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .weekly-progress .col-md-3 {
+        width: 50%;
+        margin-bottom: 1rem;
+    }
+
+    .week-number {
+        font-size: 2rem;
+    }
+
+    .week-navigation-footer .d-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .week-navigation-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ===== АНИМАЦИИ И ЭФФЕКТЫ ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modules-container .dashboard-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.lessons-list .dashboard-card {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.badge.bg-info {
+    background: rgba(125, 160, 202, 0.1) !important;
+    color: var(--light-blue) !important;
+    border: 1px solid rgba(125, 160, 202, 0.2);
+}
+
+.badge.bg-warning {
+    background: rgba(245, 158, 11, 0.1) !important;
+    color: #f59e0b !important;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge.bg-success {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.quick-complete-form button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+}
+
+.btn-light {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--grenadine);
+    border: 2px solid transparent;
+    padding: 0.8rem 1.8rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    background: var(--white);
+    border-color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--black-beauty);
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    border-radius: 2px;
+}

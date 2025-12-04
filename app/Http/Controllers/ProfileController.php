@@ -7,17 +7,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use App\Models\User;
+use App\Models\UserCourse;
+use App\Models\Course;
 
 class ProfileController extends Controller
 {
-
     public function show()
     {
         $user = Auth::user();
+
+
+        $user->load([
+            'activeCourses.course',
+            'completedCourses.course',
+            'achievements',
+            'userLessons' => function($query) {
+                $query->orderBy('completed_at', 'desc')->limit(10);
+            }
+        ]);
+
         return view('profile', compact('user'));
     }
-
 
     public function updateAvatar(Request $request)
     {
@@ -40,27 +51,22 @@ class ProfileController extends Controller
                 ], 422);
             }
 
-
             $avatarPath = public_path('storage/avatars');
             if (!file_exists($avatarPath)) {
                 \Log::info('Creating directory: ' . $avatarPath);
                 mkdir($avatarPath, 0755, true);
             }
 
-
             $avatar = $request->file('avatar');
             $filename = 'avatar_' . $user->id . '_' . time() . '.' . $avatar->getClientOriginalExtension();
 
             \Log::info('Attempting to save file: ' . $filename);
 
-
             $avatar->move($avatarPath, $filename);
-
 
             if ($user->avatar && file_exists($avatarPath . '/' . $user->avatar)) {
                 unlink($avatarPath . '/' . $user->avatar);
             }
-
 
             $user->avatar = $filename;
             $user->save();
@@ -84,7 +90,6 @@ class ProfileController extends Controller
             ], 500);
         }
     }
-
 
     public function update(Request $request)
     {
@@ -113,7 +118,6 @@ class ProfileController extends Controller
         return redirect('/profile')->with('success', 'Профиль успешно обновлен!');
     }
 
-
     public function deleteAvatar(Request $request)
     {
         try {
@@ -139,7 +143,6 @@ class ProfileController extends Controller
         }
     }
 
-
     public function updatePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -154,7 +157,6 @@ class ProfileController extends Controller
         }
 
         $user = Auth::user();
-
 
         if (!Hash::check($request->current_password, $user->password)) {
             return redirect('/profile')

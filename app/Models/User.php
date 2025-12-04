@@ -19,6 +19,8 @@ class User extends Authenticatable
         'bio',
         'level',
         'xp',
+        'streak_days',
+        'last_activity_at',
         'remember_token',
     ];
 
@@ -27,12 +29,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_activity_at' => 'datetime',
         ];
     }
 
@@ -50,7 +52,6 @@ class User extends Authenticatable
         return null;
     }
 
-
     public function getLevelTitleAttribute()
     {
         $levels = [
@@ -64,7 +65,6 @@ class User extends Authenticatable
 
         return $levels[$this->level] ?? 'Начинающий';
     }
-
 
     public function getLevelProgressAttribute()
     {
@@ -92,5 +92,65 @@ class User extends Authenticatable
         $progress = (($currentXp - $currentLevelXp) / ($nextLevelXp - $currentLevelXp)) * 100;
 
         return min(max($progress, 0), 100);
+    }
+
+
+    public function userCourses()
+    {
+        return $this->hasMany(UserCourse::class);
+    }
+
+    public function activeCourses()
+    {
+        return $this->userCourses()->whereNull('completed_at');
+    }
+
+    public function completedCourses()
+    {
+        return $this->userCourses()->whereNotNull('completed_at');
+    }
+
+    public function userLessons()
+    {
+        return $this->hasMany(UserLesson::class);
+    }
+
+    public function completedLessons()
+    {
+        return $this->userLessons()->where('completed', true);
+    }
+
+    public function achievements()
+    {
+        return $this->belongsToMany(Achievement::class, 'user_achievements')
+            ->using(UserAchievement::class) // Добавляем использование кастомной pivot-модели
+            ->withPivot('achieved_at')
+            ->withTimestamps();
+    }
+
+    public function placementTests()
+    {
+        return $this->hasMany(PlacementTest::class);
+    }
+
+
+    public function getTotalLessonsCompletedAttribute()
+    {
+        return $this->completedLessons()->count();
+    }
+
+    public function getTotalStudyTimeAttribute()
+    {
+        return $this->userLessons()->sum('time_spent');
+    }
+
+    public function getCurrentStreakAttribute()
+    {
+        return $this->streak_days;
+    }
+
+    public function getLatestTestAttribute()
+    {
+        return $this->placementTests()->orderBy('completed_at', 'desc')->first();
     }
 }

@@ -1,8 +1,27 @@
 @extends('app')
-
 @section('title', 'Профиль - Knowly')
-
 @section('content')
+    @php
+        function getCourseIcon($courseTitle) {
+            $icons = [
+                'Business' => 'briefcase',
+                'Conversational' => 'comments',
+                'IELTS' => 'pen-fancy',
+                'IT' => 'laptop-code',
+                'Travel' => 'plane',
+                'Starter' => 'book'
+            ];
+
+            foreach ($icons as $key => $icon) {
+                if (str_contains($courseTitle, $key)) {
+                    return $icon;
+                }
+            }
+
+            return 'graduation-cap';
+        }
+    @endphp
+
     <div class="profile-container">
         <div class="profile-card">
             @auth
@@ -10,7 +29,7 @@
                 <div class="profile-header">
                     <div class="avatar-upload">
                         <div class="avatar-preview" onclick="document.getElementById('avatar-input').click()">
-                            @if($user->avatar)
+                            @if($user->avatar_url)
                                 <img src="{{ $user->avatar_url }}" alt="Аватар пользователя">
                             @else
                                 <i class="fas fa-user"></i>
@@ -21,7 +40,7 @@
                         </div>
                         <input type="file" id="avatar-input" class="avatar-upload-input" accept="image/*" onchange="handleAvatarUpload(this)">
 
-                        @if($user->avatar)
+                        @if($user->avatar_url)
                             <div class="avatar-actions">
                                 <button type="button" class="avatar-btn avatar-btn-danger" onclick="deleteAvatar()">
                                     <i class="fas fa-trash"></i> Удалить
@@ -118,209 +137,115 @@
 
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-number">24</div>
+                            <div class="stat-number">{{ $user->total_lessons_completed }}</div>
                             <div class="stat-label">Пройдено уроков</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">16</div>
+                            <div class="stat-number">{{ $user->current_streak }}</div>
                             <div class="stat-label">Дней подряд</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">38ч</div>
+                            <div class="stat-number">{{ round($user->total_study_time / 60) }}ч</div>
                             <div class="stat-label">Время обучения</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">B2</div>
+                            <div class="stat-number">{{ strtoupper($user->level) }}</div>
                             <div class="stat-label">Текущий уровень</div>
-                        </div>
-                    </div>
-
-                    <div class="progress-section">
-                        <h3 class="section-title">Прогресс обучения</h3>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <span class="progress-label">Грамматика</span>
-                                <span class="progress-value">78%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 78%"></div>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <span class="progress-label">Словарный запас</span>
-                                <span class="progress-value">65%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 65%"></div>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <span class="progress-label">Разговорная практика</span>
-                                <span class="progress-value">82%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 82%"></div>
-                            </div>
                         </div>
                     </div>
 
                     <h3 class="section-title">Активные курсы</h3>
                     <div class="courses-grid">
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <h3>Business English</h3>
-                                <div class="course-level">B1-B2</div>
-                            </div>
-                            <div class="course-content">
-                                <p>Деловой английский для работы</p>
-                                <div class="course-progress">
-                                    <div class="progress-header">
-                                        <span class="progress-label">Прогресс</span>
-                                        <span class="progress-value">65%</span>
+                        @foreach($user->activeCourses as $userCourse)
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-icon">
+                                        <i class="fas fa-{{ getCourseIcon($userCourse->course->title) }}"></i>
                                     </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 65%"></div>
+                                    <h3>{{ $userCourse->course->title }}</h3>
+                                    <div class="course-level">{{ $userCourse->course->level }}</div>
+                                </div>
+                                <div class="course-content">
+                                    <p>{{ $userCourse->course->short_description }}</p>
+                                    <div class="course-progress">
+                                        <div class="progress-header">
+                                            <span class="progress-label">Прогресс</span>
+                                            <span class="progress-value">{{ $userCourse->progress }}%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ $userCourse->progress }}%"></div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="course-stats">
-                                    <span><i class="fas fa-play-circle"></i> 12/18 уроков</span>
-                                    <span><i class="fas fa-star"></i> 4.8</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">
-                                    <i class="fas fa-comments"></i>
-                                </div>
-                                <h3>Разговорный английский</h3>
-                                <div class="course-level">A2-B1</div>
-                            </div>
-                            <div class="course-content">
-                                <p>Повседневное общение</p>
-                                <div class="course-progress">
-                                    <div class="progress-header">
-                                        <span class="progress-label">Прогресс</span>
-                                        <span class="progress-value">42%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 42%"></div>
+                                    <div class="course-stats">
+                                        <span><i class="fas fa-play-circle"></i> {{ $userCourse->completed_lessons }}/{{ $userCourse->total_lessons }} уроков</span>
+                                        <span><i class="fas fa-star"></i>
+                                            @php
+                                                $stats = $userCourse->stats ?? [];
+                                                $avgScore = $stats['average_score'] ?? 4.8;
+                                                echo number_format($avgScore / 20, 1);
+                                            @endphp
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="course-stats">
-                                    <span><i class="fas fa-play-circle"></i> 8/20 уроков</span>
-                                    <span><i class="fas fa-star"></i> 4.9</span>
-                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
 
                 <div class="tab-content" id="learning-tab">
                     <h3 class="section-title">Мои курсы</h3>
                     <div class="courses-grid">
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <h3>Business English</h3>
-                                <div class="course-level">B1-B2</div>
-                            </div>
-                            <div class="course-content">
-                                <p>Деловой английский для работы и карьеры</p>
-                                <div class="course-progress">
-                                    <div class="progress-header">
-                                        <span class="progress-label">Прогресс</span>
-                                        <span class="progress-value">65%</span>
+                        @foreach($user->userCourses as $userCourse)
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-icon">
+                                        <i class="fas fa-{{ getCourseIcon($userCourse->course->title) }}"></i>
                                     </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 65%"></div>
+                                    <h3>{{ $userCourse->course->title }}</h3>
+                                    <div class="course-level">{{ $userCourse->course->level }}</div>
+                                    @if($userCourse->completed_at)
+                                        <div class="course-badge completed">Завершен</div>
+                                    @else
+                                        <div class="course-badge in-progress">В процессе</div>
+                                    @endif
+                                </div>
+                                <div class="course-content">
+                                    <p>{{ $userCourse->course->short_description }}</p>
+                                    <div class="course-progress">
+                                        <div class="progress-header">
+                                            <span class="progress-label">Прогресс</span>
+                                            <span class="progress-value">{{ $userCourse->progress }}%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ $userCourse->progress }}%"></div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="course-stats">
-                                    <span><i class="fas fa-play-circle"></i> 12/18 уроков</span>
-                                    <span><i class="fas fa-clock"></i> 15 часов</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">
-                                    <i class="fas fa-comments"></i>
-                                </div>
-                                <h3>Разговорный английский</h3>
-                                <div class="course-level">A2-B1</div>
-                            </div>
-                            <div class="course-content">
-                                <p>Повседневное общение и диалоги</p>
-                                <div class="course-progress">
-                                    <div class="progress-header">
-                                        <span class="progress-label">Прогресс</span>
-                                        <span class="progress-value">42%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 42%"></div>
+                                    <div class="course-stats">
+                                        <span><i class="fas fa-play-circle"></i> {{ $userCourse->completed_lessons }}/{{ $userCourse->total_lessons }} уроков</span>
+                                        <span><i class="fas fa-clock"></i> {{ round(($userCourse->total_lessons * 45) / 60) }} часов</span>
                                     </div>
                                 </div>
-                                <div class="course-stats">
-                                    <span><i class="fas fa-play-circle"></i> 8/20 уроков</span>
-                                    <span><i class="fas fa-clock"></i> 10 часов</span>
-                                </div>
                             </div>
-                        </div>
-
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">
-                                    <i class="fas fa-pen-fancy"></i>
-                                </div>
-                                <h3>Подготовка к IELTS</h3>
-                                <div class="course-level">B2-C1</div>
-                            </div>
-                            <div class="course-content">
-                                <p>Полная подготовка к экзамену</p>
-                                <div class="course-progress">
-                                    <div class="progress-header">
-                                        <span class="progress-label">Прогресс</span>
-                                        <span class="progress-value">25%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 25%"></div>
-                                    </div>
-                                </div>
-                                <div class="course-stats">
-                                    <span><i class="fas fa-play-circle"></i> 5/24 уроков</span>
-                                    <span><i class="fas fa-clock"></i> 8 часов</span>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
 
                     <h3 class="section-title">Статистика обучения</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-number">94%</div>
-                            <div class="stat-label">Посещаемость</div>
+                            <div class="stat-number">{{ $user->userCourses->count() }}</div>
+                            <div class="stat-label">Всего курсов</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">4.7</div>
-                            <div class="stat-label">Средняя оценка</div>
+                            <div class="stat-number">{{ $user->completedCourses->count() }}</div>
+                            <div class="stat-label">Завершено курсов</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">12</div>
-                            <div class="stat-label">Пройдено тестов</div>
+                            <div class="stat-number">{{ $user->total_lessons_completed }}</div>
+                            <div class="stat-label">Пройдено уроков</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">86%</div>
-                            <div class="stat-label">Успеваемость</div>
+                            <div class="stat-number">{{ round($user->total_study_time / 60) }}ч</div>
+                            <div class="stat-label">Время обучения</div>
                         </div>
                     </div>
                 </div>
@@ -328,94 +253,38 @@
                 <div class="tab-content" id="achievements-tab">
                     <h3 class="section-title">Мои достижения</h3>
                     <div class="achievements-grid">
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-fire"></i>
+                        @foreach($user->achievements as $achievement)
+                            <div class="achievement-card">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-{{ $achievement->icon }}"></i>
+                                </div>
+                                <h4>{{ $achievement->name }}</h4>
+                                <p>{{ $achievement->description }}</p>
+                                <div class="achievement-date">
+                                    Получено: {{ \Carbon\Carbon::parse($achievement->pivot->achieved_at)->format('d.m.Y') }}
+                                </div>
                             </div>
-                            <h4>Неделя усердия</h4>
-                            <p>7 дней подряд обучения</p>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <h4>Скоростник</h4>
-                            <p>10 уроков за 2 дня</p>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-gem"></i>
-                            </div>
-                            <h4>Грамматический гений</h4>
-                            <p>100% по грамматике</p>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon achievement-locked">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <h4>Мастер слова</h4>
-                            <p>1000 слов изучено</p>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <h4>Первый шаг</h4>
-                            <p>Первый урок завершен</p>
-                        </div>
-                        <div class="achievement-card">
-                            <div class="achievement-icon achievement-locked">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <h4>Полиглот</h4>
-                            <p>5 курсов завершено</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
 
                 <div class="tab-content" id="activity-tab">
                     <h3 class="section-title">История активности</h3>
                     <div class="activity-timeline">
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-play-circle"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Завершен урок: Business Meeting</div>
-                                <div class="activity-description">Курс: Business English • Оценка: 95%</div>
-                                <div class="activity-time">Сегодня, 14:30</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Изучены новые слова</div>
-                                <div class="activity-description">15 новых слов по теме "Офис"</div>
-                                <div class="activity-time">Вчера, 19:15</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Пройден тест: Grammar Intermediate</div>
-                                <div class="activity-description">Результат: 88% • Уровень: B1</div>
-                                <div class="activity-time">2 дня назад, 10:00</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <div class="activity-content">
-                                <div class="activity-title">Получено достижение</div>
-                                <div class="activity-description">"Неделя усердия" - 7 дней подряд</div>
-                                <div class="activity-time">3 дня назад, 09:30</div>
-                            </div>
-                        </div>
+                        @foreach($user->userLessons as $userLesson)
+                            @if($userLesson->completed)
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Завершен урок</div>
+                                        <div class="activity-description">Оценка: {{ $userLesson->score ?? 'N/A' }}% • Время: {{ round($userLesson->time_spent / 60) }} мин</div>
+                                        <div class="activity-time">{{ $userLesson->completed_at->format('d.m.Y H:i') }}</div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
 
@@ -514,40 +383,6 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
-
-                    <div class="settings-section">
-                        <h3 class="section-title">Настройки уведомлений</h3>
-                        <div class="setting-item">
-                            <div class="setting-info">
-                                <h4>Email уведомления</h4>
-                                <p>Получать уведомления на почту</p>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-item">
-                            <div class="setting-info">
-                                <h4>Напоминания о уроках</h4>
-                                <p>Уведомления о предстоящих уроках</p>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-item">
-                            <div class="setting-info">
-                                <h4>Новости платформы</h4>
-                                <p>Обновления и новые функции</p>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
                     </div>
 
                     <!-- Кнопка выхода -->

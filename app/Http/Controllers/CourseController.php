@@ -1,25 +1,35 @@
 <?php
+// app/Http/Controllers/CourseController.php
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    /**
-     * Показать страницу курсов
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return view('courses');
+        $filter = $request->get('filter', 'all');
+
+        // Убираем with('category') пока нет категорий
+        $courses = Course::active();
+
+        if ($filter !== 'all') {
+            $courses->where('course_type', $filter);
+        }
+
+        $courses = $courses->get();
+
+        return view('courses', compact('courses', 'filter'));
     }
 
-    /**
-     * Показать страницу конкретного курса
-     */
-    public function show($courseSlug)
+    public function show($slug)
     {
+        $course = Course::where('slug', $slug)
+            ->active()
+            ->firstOrFail();
 
-        return view('course-single', ['courseSlug' => $courseSlug]);
+        return view('course-single', compact('course'));
     }
 }

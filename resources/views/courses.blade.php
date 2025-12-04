@@ -157,171 +157,57 @@
 
 
             <div class="courses-filters" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap;">
-                <button class="btn btn-outline active" data-filter="all">Все курсы</button>
-                <button class="btn btn-outline" data-filter="beginner">Для начинающих</button>
-                <button class="btn btn-outline" data-filter="business">Бизнес английский</button>
-                <button class="btn btn-outline" data-filter="conversational">Разговорный</button>
-                <button class="btn btn-outline" data-filter="exam">Подготовка к экзаменам</button>
-                <button class="btn btn-outline" data-filter="specialized">Специализированные</button>
+                <button class="btn btn-outline {{ $filter === 'all' ? 'active' : '' }}" data-filter="all">Все курсы</button>
+                <button class="btn btn-outline {{ $filter === 'beginner' ? 'active' : '' }}" data-filter="beginner">Для начинающих</button>
+                <button class="btn btn-outline {{ $filter === 'business' ? 'active' : '' }}" data-filter="business">Бизнес английский</button>
+                <button class="btn btn-outline {{ $filter === 'conversational' ? 'active' : '' }}" data-filter="conversational">Разговорный</button>
+                <button class="btn btn-outline {{ $filter === 'exam' ? 'active' : '' }}" data-filter="exam">Подготовка к экзаменам</button>
+                <button class="btn btn-outline {{ $filter === 'specialized' ? 'active' : '' }}" data-filter="specialized">Специализированные</button>
             </div>
 
             <div class="courses-grid">
+                @foreach($courses as $course)
+                    <div class="pricing-card {{ $course->popular ? 'popular' : '' }}" data-category="{{ $course->course_type }}">
+                        @if($course->popular)
+                            <div class="popular-badge">Популярный</div>
+                        @endif
 
-                <div class="pricing-card" data-category="beginner">
-                    <div class="pricing-header">
-                        <h3>English Starter</h3>
-                        <div class="price">8 900 ₽<span>/месяц</span></div>
-                        <p>Для начинающих с нуля</p>
-                        <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">Уровень A1-A2</div>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 8 уроков в месяц</li>
-                        <li><i class="fas fa-check"></i> Группа 4-6 человек</li>
-                        <li><i class="fas fa-check"></i> Базовая грамматика</li>
-                        <li><i class="fas fa-check"></i> Произношение и аудирование</li>
-                        <li><i class="fas fa-check"></i> Разговорная практика</li>
-                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
-                        <li><i class="fas fa-times"></i> Разговорный клуб</li>
-                        <li><i class="fas fa-times"></i> Персональный куратор</li>
-                    </ul>
-                    <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
-                        <span><i class="fas fa-clock"></i> 3 месяца</span>
-                        <span><i class="fas fa-users"></i> 4-6 студентов</span>
-                        <span><i class="fas fa-play-circle"></i> 24 урока</span>
-                    </div>
-                    <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
-                </div>
+                        <div class="pricing-header">
+                            <h3>{{ $course->title }}</h3>
+                            <div class="price">{{ number_format($course->price, 0, '', ' ') }} ₽<span>/месяц</span></div>
+                            <p>{{ $course->short_description }}</p>
+                            <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">
+                                Уровень {{ $course->level }}
+                            </div>
+                        </div>
 
+                        <ul class="pricing-features">
+                            @foreach(json_decode($course->features) as $feature)
+                                <li><i class="fas fa-check"></i> {{ $feature }}</li>
+                            @endforeach
+                        </ul>
 
-                <div class="pricing-card popular" data-category="conversational">
-                    <div class="popular-badge">Популярный</div>
-                    <div class="pricing-header">
-                        <h3>Conversational Pro</h3>
-                        <div class="price">12 900 ₽<span>/месяц</span></div>
-                        <p>Свободное общение</p>
-                        <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">Уровень A2-B1</div>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 12 уроков в месяц</li>
-                        <li><i class="fas fa-check"></i> Группа 3-5 человек</li>
-                        <li><i class="fas fa-check"></i> Углубленная грамматика</li>
-                        <li><i class="fas fa-check"></i> Живые диалоги и обсуждения</li>
-                        <li><i class="fas fa-check"></i> Сленг и идиомы</li>
-                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
-                        <li><i class="fas fa-check"></i> Участие в разговорном клубе</li>
-                        <li><i class="fas fa-times"></i> Персональный куратор</li>
-                    </ul>
-                    <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
-                        <span><i class="fas fa-clock"></i> 4 месяца</span>
-                        <span><i class="fas fa-users"></i> 3-5 студентов</span>
-                        <span><i class="fas fa-play-circle"></i> 48 уроков</span>
-                    </div>
-                    <a href="/signup" class="btn btn-primary" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
-                </div>
+                        <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
+                            <span><i class="fas fa-clock"></i> {{ $course->duration }} месяцев</span>
+                            <span><i class="fas fa-users"></i> {{ $course->group_size }}</span>
+                            <span><i class="fas fa-play-circle"></i> {{ $course->lessons_count }} уроков</span>
+                        </div>
 
-
-                <div class="pricing-card" data-category="business">
-                    <div class="pricing-header">
-                        <h3>Business English</h3>
-                        <div class="price">16 900 ₽<span>/месяц</span></div>
-                        <p>Для работы и карьеры</p>
-                        <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">Уровень B1-B2</div>
+                            <div class="course-actions">
+                                <a href="/signup" class="btn {{ $course->popular ? 'btn-primary' : 'btn-outline' }} btn-full">
+                                    Бесплатный пробный урок
+                                </a>
+                                <div class="btn-row">
+                                    <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">
+                                        Подробнее
+                                    </a>
+                                    <a href="{{ route('learning.plan', $course->slug) }}" class="btn btn-plan">
+                                        <i class="fas fa-graduation-cap"></i> Учебный план
+                                    </a>
+                                </div>
+                            </div>
                     </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 12 уроков в месяц</li>
-                        <li><i class="fas fa-check"></i> Группа 2-4 человека</li>
-                        <li><i class="fas fa-check"></i> Деловая переписка</li>
-                        <li><i class="fas fa-check"></i> Презентации и переговоры</li>
-                        <li><i class="fas fa-check"></i> Телефонные разговоры</li>
-                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
-                        <li><i class="fas fa-check"></i> Участие в разговорном клубе</li>
-                        <li><i class="fas fa-check"></i> Поддержка куратора</li>
-                    </ul>
-                    <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
-                        <span><i class="fas fa-clock"></i> 5 месяцев</span>
-                        <span><i class="fas fa-users"></i> 2-4 студента</span>
-                        <span><i class="fas fa-play-circle"></i> 60 уроков</span>
-                    </div>
-                    <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
-                </div>
-
-
-                <div class="pricing-card" data-category="exam">
-                    <div class="pricing-header">
-                        <h3>IELTS Preparation</h3>
-                        <div class="price">18 900 ₽<span>/месяц</span></div>
-                        <p>Подготовка к экзамену</p>
-                        <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">Уровень B2-C1</div>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 16 уроков в месяц</li>
-                        <li><i class="fas fa-check"></i> Индивидуальные занятия</li>
-                        <li><i class="fas fa-check"></i> Полная подготовка к IELTS</li>
-                        <li><i class="fas fa-check"></i> Пробные тесты каждую неделю</li>
-                        <li><i class="fas fa-check"></i> Стратегии сдачи экзамена</li>
-                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
-                        <li><i class="fas fa-check"></i> Разбор ошибок</li>
-                        <li><i class="fas fa-check"></i> Персональный куратор</li>
-                    </ul>
-                    <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
-                        <span><i class="fas fa-clock"></i> 3 месяца</span>
-                        <span><i class="fas fa-users"></i> Индивидуально</span>
-                        <span><i class="fas fa-play-circle"></i> 48 уроков</span>
-                    </div>
-                    <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
-                </div>
-
-
-                <div class="pricing-card" data-category="specialized">
-                    <div class="pricing-header">
-                        <h3>IT English</h3>
-                        <div class="price">14 900 ₽<span>/месяц</span></div>
-                        <p>Для IT-специалистов</p>
-                        <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">Уровень B1-C1</div>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 10 уроков в месяц</li>
-                        <li><i class="fas fa-check"></i> Группа 3-5 человек</li>
-                        <li><i class="fas fa-check"></i> Техническая лексика</li>
-                        <li><i class="fas fa-check"></i> Подготовка к собеседованиям</li>
-                        <li><i class="fas fa-check"></i> Документация и код-ревью</li>
-                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
-                        <li><i class="fas fa-check"></i> Участие в IT разговорном клубе</li>
-                        <li><i class="fas fa-check"></i> Поддержка куратора</li>
-                    </ul>
-                    <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
-                        <span><i class="fas fa-clock"></i> 4 месяца</span>
-                        <span><i class="fas fa-users"></i> 3-5 студентов</span>
-                        <span><i class="fas fa-play-circle"></i> 40 уроков</span>
-                    </div>
-                    <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
-                </div>
-
-
-                <div class="pricing-card" data-category="conversational">
-                    <div class="pricing-header">
-                        <h3>Travel English</h3>
-                        <div class="price">9 900 ₽<span>/месяц</span></div>
-                        <p>Для путешествий</p>
-                        <div class="level-badge" style="background: var(--grenadine); color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; display: inline-block;">Уровень A1-B1</div>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> 8 уроков в месяц</li>
-                        <li><i class="fas fa-check"></i> Группа 4-6 человек</li>
-                        <li><i class="fas fa-check"></i> Лексика для путешествий</li>
-                        <li><i class="fas fa-check"></i> Аэропорт, отель, ресторан</li>
-                        <li><i class="fas fa-check"></i> Ситуации экстренной помощи</li>
-                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
-                        <li><i class="fas fa-check"></i> Разговорный клуб путешественников</li>
-                        <li><i class="fas fa-times"></i> Персональный куратор</li>
-                    </ul>
-                    <div class="course-stats" style="display: flex; justify-content: space-between; margin: 1.5rem 0; font-size: 0.9rem; color: var(--ultimate-gray);">
-                        <span><i class="fas fa-clock"></i> 2 месяца</span>
-                        <span><i class="fas fa-users"></i> 4-6 студентов</span>
-                        <span><i class="fas fa-play-circle"></i> 16 уроков</span>
-                    </div>
-                    <a href="/signup" class="btn btn-outline" style="width: 100%; text-align: center;">Бесплатный пробный урок</a>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -415,39 +301,27 @@
 
 @section('scripts')
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.courses-filters .btn');
             const courseCards = document.querySelectorAll('.pricing-card');
 
+            // Обработка кликов по фильтрам
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
-
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-
-                    this.classList.add('active');
-
                     const filter = this.getAttribute('data-filter');
+                    const url = new URL(window.location);
 
+                    if (filter === 'all') {
+                        url.searchParams.delete('filter');
+                    } else {
+                        url.searchParams.set('filter', filter);
+                    }
 
-                    courseCards.forEach(card => {
-                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                            card.style.display = 'block';
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, 50);
-                        } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'translateY(20px)';
-                            setTimeout(() => {
-                                card.style.display = 'none';
-                            }, 300);
-                        }
-                    });
+                    window.location.href = url.toString();
                 });
             });
 
+            // Анимация появления карточек
             courseCards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
@@ -472,21 +346,17 @@
             const progressFill = document.querySelector('.quiz-progress-fill');
             progressFill.style.width = '50%';
 
-
             setTimeout(() => {
                 alert('Спасибо за ответ! В реальной версии здесь будет следующий вопрос квиза.');
             }, 500);
         }
 
-
         document.querySelectorAll('.quiz-option').forEach(option => {
             option.addEventListener('click', function() {
-
                 document.querySelectorAll('.quiz-option').forEach(opt => {
                     opt.style.borderColor = 'var(--nimbus-cloud)';
                     opt.style.backgroundColor = 'var(--white)';
                 });
-
 
                 this.style.borderColor = 'var(--grenadine)';
                 this.style.backgroundColor = 'rgba(223, 63, 50, 0.05)';
