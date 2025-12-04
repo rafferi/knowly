@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Course, Module, Lesson, UserLearningProgress};
+use App\Models\{Course, Module, Lesson, UserLearningProgress, Homework};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LearningPlanController extends Controller
 {
-
     public function show($courseSlug)
     {
         $course = Course::where('slug', $courseSlug)
@@ -30,7 +29,6 @@ class LearningPlanController extends Controller
 
         return view('learning.plan', compact('course', 'progress'));
     }
-
 
     public function showWeek($courseSlug, $week)
     {
@@ -66,7 +64,6 @@ class LearningPlanController extends Controller
         ));
     }
 
-
     public function showLesson($courseSlug, $lessonId)
     {
         $lesson = Lesson::with(['course', 'module'])
@@ -77,6 +74,7 @@ class LearningPlanController extends Controller
 
         $user = Auth::user();
         $userLesson = null;
+        $userHomework = null;
         $nextLesson = null;
         $prevLesson = null;
 
@@ -85,6 +83,9 @@ class LearningPlanController extends Controller
                 ->where('lesson_id', $lessonId)
                 ->first();
 
+            $userHomework = Homework::where('user_id', $user->id)
+                ->where('lesson_id', $lessonId)
+                ->first();
 
             $nextLesson = Lesson::where('course_id', $lesson->course_id)
                 ->where('week_number', $lesson->week_number)
@@ -99,7 +100,6 @@ class LearningPlanController extends Controller
                     ->orderBy('order')
                     ->first();
             }
-
 
             $prevLesson = Lesson::where('course_id', $lesson->course_id)
                 ->where('week_number', $lesson->week_number)
@@ -119,11 +119,11 @@ class LearningPlanController extends Controller
         return view('learning.lesson', compact(
             'lesson',
             'userLesson',
+            'userHomework',
             'nextLesson',
             'prevLesson'
         ));
     }
-
 
     public function startCourse(Request $request, $courseId)
     {
@@ -149,7 +149,6 @@ class LearningPlanController extends Controller
         return redirect()->route('learning.plan', ['course' => $course->slug])
             ->with('success', 'Обучение начато! Удачи!');
     }
-
 
     public function completeLesson(Request $request, $lessonId)
     {
@@ -178,7 +177,6 @@ class LearningPlanController extends Controller
             ->first();
 
         if ($progress) {
-
             $totalLessons = Lesson::where('course_id', $lesson->course_id)->count();
             $completedLessons = $user->userLessons()
                 ->whereHas('lesson', function($query) use ($lesson) {
@@ -193,7 +191,6 @@ class LearningPlanController extends Controller
                 'last_study_date' => now(),
                 'total_study_time' => $progress->total_study_time + $request->input('time_spent', $lesson->estimated_time)
             ]);
-
 
             $weekLessons = Lesson::where('course_id', $lesson->course_id)
                 ->where('week_number', $lesson->week_number)
@@ -212,7 +209,6 @@ class LearningPlanController extends Controller
                 if (!in_array($lesson->week_number, $completedWeeks)) {
                     $completedWeeks[] = $lesson->week_number;
                     $progress->completed_weeks = $completedWeeks;
-
 
                     if ($lesson->week_number >= $progress->current_week) {
                         $progress->current_week = $lesson->week_number + 1;

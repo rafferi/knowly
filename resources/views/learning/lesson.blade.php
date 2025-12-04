@@ -94,7 +94,7 @@
                                 </div>
                             @endif
 
-                            <!-- Домашнее задание -->
+                            <!-- Домашнее задание (инструкция) -->
                             @if($lesson->has_homework && $lesson->homework_instructions)
                                 <div class="dashboard-card mt-4">
                                     <div class="card-header">
@@ -122,6 +122,62 @@
                                         @endif
                                     </div>
                                 </div>
+                            @endif
+
+                            <!-- Отправка домашнего задания -->
+                            @if($lesson->has_homework)
+                                @if(auth()->check())
+                                    @if($userHomework)
+                                        <div class="dashboard-card mt-4">
+                                            <div class="card-header">
+                                                <h4 class="mb-0"><i class="fas fa-tasks"></i> Ваше домашнее задание</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="alert alert-info">
+                                                    <i class="fas fa-info-circle"></i> Вы уже отправили домашнее задание для этого урока.
+                                                    <a href="{{ route('homeworks.show', $userHomework) }}" class="btn btn-sm btn-primary ms-2">
+                                                        Посмотреть статус
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="dashboard-card mt-4">
+                                            <div class="card-header">
+                                                <h4 class="mb-0"><i class="fas fa-tasks"></i> Отправить домашнее задание</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ route('homeworks.store', $lesson->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="mb-3">
+                                                        <label for="content" class="form-label">Ваш ответ *</label>
+                                                        <textarea name="content" id="content" class="form-control" rows="6"
+                                                                  placeholder="Напишите ваш ответ здесь..." required></textarea>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="attachments" class="form-label">Прикрепить файлы</label>
+                                                        <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
+                                                        <small class="text-muted">Можно прикрепить несколько файлов (PDF, Word, изображения, аудио)</small>
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-paper-plane"></i> Отправить на проверку
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @else
+                                    <div class="dashboard-card mt-4">
+                                        <div class="card-header">
+                                            <h4 class="mb-0"><i class="fas fa-tasks"></i> Домашнее задание</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>Для отправки домашнего задания необходимо <a href="{{ route('login') }}">войти</a>.</p>
+                                        </div>
+                                    </div>
+                                @endif
                             @endif
                         </div>
 

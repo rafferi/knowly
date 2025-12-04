@@ -153,4 +153,9 @@ class User extends Authenticatable
     {
         return $this->placementTests()->orderBy('completed_at', 'desc')->first();
     }
+    public function isTeacher()
+    {
+
+        return $this->email === 'teacher@gmail.com';
+    }
 }
