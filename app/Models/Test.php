@@ -1,5 +1,4 @@
 <?php
-// app/Models/Test.php
 
 namespace App\Models;
 
@@ -18,7 +17,6 @@ class Test extends Model
         'description',
         'type',
         'week_number',
-        'questions',
         'time_limit',
         'passing_score',
         'max_attempts',
@@ -26,7 +24,6 @@ class Test extends Model
     ];
 
     protected $casts = [
-        'questions' => 'array',
         'is_active' => 'boolean'
     ];
 
@@ -50,6 +47,11 @@ class Test extends Model
         return $this->hasMany(TestResult::class);
     }
 
+    public function questions()
+    {
+        return $this->hasMany(TestQuestion::class)->orderBy('order_index');
+    }
+
     public function getTypeLabelAttribute()
     {
         $labels = [
@@ -66,6 +68,41 @@ class Test extends Model
 
     public function getEstimatedTimeAttribute()
     {
-        return $this->time_limit . ' мин';
+        return $this->time_limit ? $this->time_limit . ' мин' : 'Без ограничения';
+    }
+
+    public function getTotalQuestionsAttribute()
+    {
+        return $this->questions()->count();
+    }
+
+    public function getTotalPointsAttribute()
+    {
+        return $this->questions()->sum('points');
+    }
+
+    public function isAccessibleForUser($user)
+    {
+        if (!$this->is_active) {
+            return false;
+        }
+
+        if ($this->type === 'placement') {
+            return true;
+        }
+
+        $userProgress = UserLearningProgress::where('user_id', $user->id)
+            ->where('course_id', $this->course_id)
+            ->first();
+
+        if (!$userProgress) {
+            return false;
+        }
+
+        if ($this->week_number && $this->week_number > $userProgress->current_week) {
+            return false;
+        }
+
+        return true;
     }
 }

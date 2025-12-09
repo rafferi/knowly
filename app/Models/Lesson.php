@@ -23,8 +23,6 @@ class Lesson extends Model
         'video_url',
         'materials',
         'learning_materials',
-        'has_homework',
-        'homework_instructions',
         'additional_resources',
         'is_free'
     ];
@@ -32,9 +30,7 @@ class Lesson extends Model
     protected $casts = [
         'materials' => 'array',
         'learning_materials' => 'array',
-        'homework_instructions' => 'array',
         'additional_resources' => 'array',
-        'has_homework' => 'boolean',
         'is_free' => 'boolean',
         'duration' => 'integer',
         'estimated_time' => 'integer',
@@ -60,16 +56,15 @@ class Lesson extends Model
     public function getLessonTypeLabelAttribute()
     {
         $types = [
-            'grammar' => '📝 Грамматика',
-            'vocabulary' => '📚 Лексика',
-            'listening' => '🎧 Аудирование',
-            'reading' => '📖 Чтение',
-            'writing' => '✍️ Письмо',
-            'speaking' => '💬 Разговорная практика',
-            'test' => '📊 Тест',
-            'review' => '🔄 Повторение',
-            'homework' => '📝 Домашнее задание',
-            'practice' => '💪 Практика'
+            'grammar' => 'Грамматика',
+            'vocabulary' => 'Лексика',
+            'listening' => 'Аудирование',
+            'reading' => 'Чтение',
+            'writing' => '✍Письмо',
+            'speaking' => 'Разговорная практика',
+            'test' => 'Тест',
+            'review' => 'Повторение',
+            'practice' => 'Практика'
         ];
 
         return $types[$this->lesson_type] ?? $this->lesson_type;

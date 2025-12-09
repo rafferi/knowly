@@ -94,7 +94,6 @@ class User extends Authenticatable
         return min(max($progress, 0), 100);
     }
 
-
     public function userCourses()
     {
         return $this->hasMany(UserCourse::class);
@@ -123,7 +122,7 @@ class User extends Authenticatable
     public function achievements()
     {
         return $this->belongsToMany(Achievement::class, 'user_achievements')
-            ->using(UserAchievement::class) // Добавляем использование кастомной pivot-модели
+            ->using(UserAchievement::class)
             ->withPivot('achieved_at')
             ->withTimestamps();
     }
@@ -132,7 +131,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(PlacementTest::class);
     }
-
 
     public function getTotalLessonsCompletedAttribute()
     {
@@ -153,9 +151,13 @@ class User extends Authenticatable
     {
         return $this->placementTests()->orderBy('completed_at', 'desc')->first();
     }
+
     public function isTeacher()
     {
-
-        return $this->email === 'teacher@gmail.com';
+        return in_array($this->email, [
+                'teacher@gmail.com',
+                'admin@example.com',
+                'tutor@englishschool.com'
+            ]) || $this->role === 'teacher' || $this->role === 'admin';
     }
 }

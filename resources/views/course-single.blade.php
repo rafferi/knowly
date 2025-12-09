@@ -24,9 +24,46 @@
                 </div>
 
                 <div class="courses-hero-buttons-new course-actions mt-4">
-                    <a href="/signup" class="btn-primary-new me-3">
-                        <i class="fas fa-play-circle"></i> Бесплатный пробный урок
-                    </a>
+                    @auth
+                        @php
+                            $userEnrollment = App\Models\Enrollment::where('user_id', auth()->id())
+                                ->where('course_id', $course->id)
+                                ->first();
+                        @endphp
+
+                        @if($userEnrollment)
+                            @if($userEnrollment->canAccessCourse())
+                                <a href="{{ route('learning.plan', $course->slug) }}" class="btn-primary-new me-3">
+                                    <i class="fas fa-play-circle"></i> Продолжить обучение
+                                </a>
+                            @elseif($userEnrollment->status === 'pending')
+                                <a href="{{ route('enrollment.checkout', $course->slug) }}" class="btn-primary-new me-3">
+                                    <i class="fas fa-credit-card"></i> Оплатить курс
+                                </a>
+                            @endif
+                        @else
+                            @if($course->price == 0)
+                                <form action="{{ route('enrollment.free-enroll', $course->slug) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn-primary-new me-3">
+                                        <i class="fas fa-user-plus"></i> Записаться бесплатно
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('enrollment.enroll', $course->slug) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn-primary-new me-3">
+                                        <i class="fas fa-shopping-cart"></i> Записаться на курс
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
+                    @else
+                        <a href="/signup" class="btn-primary-new me-3">
+                            <i class="fas fa-play-circle"></i> Записаться на курс
+                        </a>
+                    @endauth
+
                     <a href="{{ route('learning.plan', $course->slug) }}" class="btn-secondary-new">
                         <i class="fas fa-graduation-cap"></i> Учебный план
                     </a>
@@ -66,9 +103,37 @@
                             </div>
                         </div>
 
-                        <a href="/signup" class="btn-primary-new w-100">
-                            Начать обучение
-                        </a>
+                        @auth
+                            @if(!$userEnrollment)
+                                @if($course->price == 0)
+                                    <form action="{{ route('enrollment.free-enroll', $course->slug) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn-primary-new w-100">
+                                            <i class="fas fa-user-plus"></i> Начать обучение
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('enrollment.enroll', $course->slug) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn-primary-new w-100">
+                                            <i class="fas fa-shopping-cart"></i> Начать обучение
+                                        </button>
+                                    </form>
+                                @endif
+                            @elseif($userEnrollment->canAccessCourse())
+                                <a href="{{ route('learning.plan', $course->slug) }}" class="btn-primary-new w-100">
+                                    <i class="fas fa-play-circle"></i> Продолжить обучение
+                                </a>
+                            @elseif($userEnrollment->status === 'pending')
+                                <a href="{{ route('enrollment.checkout', $course->slug) }}" class="btn-primary-new w-100">
+                                    <i class="fas fa-credit-card"></i> Оплатить курс
+                                </a>
+                            @endif
+                        @else
+                            <a href="/signup" class="btn-primary-new w-100">
+                                Начать обучение
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -169,7 +234,6 @@
                             <ul class="pricing-features">
                                 <li><i class="fas fa-check text-success me-2"></i> Живые занятия с преподавателем</li>
                                 <li><i class="fas fa-check text-success me-2"></i> Все учебные материалы</li>
-                                <li><i class="fas fa-check text-success me-2"></i> Домашние задания и проверка</li>
                                 <li><i class="fas fa-check text-success me-2"></i> Доступ к платформе 24/7</li>
                                 <li><i class="fas fa-check text-success me-2"></i> Сертификат по окончании</li>
                                 <li><i class="fas fa-check text-success me-2"></i> Поддержка куратора</li>
@@ -191,9 +255,38 @@
                                 <div class="text-success fw-bold">{{ number_format($course->price * 3 * 0.9, 0, '', ' ') }} ₽</div>
                                 <small class="text-muted">Экономия {{ number_format($course->price * 3 * 0.1, 0, '', ' ') }} ₽</small>
                             </div>
-                            <a href="/signup" class="btn-primary-new w-100">
-                                Начать обучение
-                            </a>
+
+                            @auth
+                                @if(!$userEnrollment)
+                                    @if($course->price == 0)
+                                        <form action="{{ route('enrollment.free-enroll', $course->slug) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn-primary-new w-100">
+                                                <i class="fas fa-user-plus"></i> Начать обучение
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('enrollment.enroll', $course->slug) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn-primary-new w-100">
+                                                <i class="fas fa-shopping-cart"></i> Начать обучение
+                                            </button>
+                                        </form>
+                                    @endif
+                                @elseif($userEnrollment->canAccessCourse())
+                                    <a href="{{ route('learning.plan', $course->slug) }}" class="btn-primary-new w-100">
+                                        <i class="fas fa-play-circle"></i> Продолжить обучение
+                                    </a>
+                                @elseif($userEnrollment->status === 'pending')
+                                    <a href="{{ route('enrollment.checkout', $course->slug) }}" class="btn-primary-new w-100">
+                                        <i class="fas fa-credit-card"></i> Оплатить курс
+                                    </a>
+                                @endif
+                            @else
+                                <a href="/signup" class="btn-primary-new w-100">
+                                    Начать обучение
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 </div>

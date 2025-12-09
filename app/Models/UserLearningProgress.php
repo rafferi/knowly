@@ -26,7 +26,6 @@ class UserLearningProgress extends Model
         'weekly_progress',
         'total_study_time',
         'lessons_completed',
-        'homeworks_submitted',
         'last_study_date',
         'weekly_goal_hours',
         'notifications_enabled',

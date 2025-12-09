@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/CourseController.php
 
 namespace App\Http\Controllers;
 
@@ -12,7 +11,6 @@ class CourseController extends Controller
     {
         $filter = $request->get('filter', 'all');
 
-        // Убираем with('category') пока нет категорий
         $courses = Course::active();
 
         if ($filter !== 'all') {
@@ -20,6 +18,13 @@ class CourseController extends Controller
         }
 
         $courses = $courses->get();
+
+        // Декодируем features для каждого курса
+        foreach ($courses as $course) {
+            if (is_string($course->features)) {
+                $course->features = json_decode($course->features, true);
+            }
+        }
 
         return view('courses', compact('courses', 'filter'));
     }
@@ -29,6 +34,11 @@ class CourseController extends Controller
         $course = Course::where('slug', $slug)
             ->active()
             ->firstOrFail();
+
+        // Декодируем features для курса
+        if (is_string($course->features)) {
+            $course->features = json_decode($course->features, true);
+        }
 
         return view('course-single', compact('course'));
     }

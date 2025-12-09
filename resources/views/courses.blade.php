@@ -24,7 +24,6 @@
                     </a>
                 </div>
 
-
                 <div class="levels-progress-new">
                     <div class="levels-track-new">
                         <div class="level-marker-new" data-level="A1">
@@ -65,7 +64,6 @@
                     </div>
                 </div>
 
-
                 <div class="floating-course-new course-1-new">
                     <div class="course-icon-new">
                         <i class="fas fa-graduation-cap"></i>
@@ -98,7 +96,6 @@
             </div>
         </div>
     </section>
-
 
     <section id="quiz" class="features" style="padding: 4rem 0;">
         <div class="container">
@@ -147,14 +144,12 @@
         </div>
     </section>
 
-
     <section id="all-courses" class="pricing" style="background: var(--gray-light); padding: 6rem 0;">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Все курсы английского языка</h2>
                 <p class="section-subtitle">Выберите программу, которая подходит именно вам. Все курсы включают бесплатный пробный урок</p>
             </div>
-
 
             <div class="courses-filters" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap;">
                 <button class="btn btn-outline {{ $filter === 'all' ? 'active' : '' }}" data-filter="all">Все курсы</button>
@@ -182,7 +177,7 @@
                         </div>
 
                         <ul class="pricing-features">
-                            @foreach(json_decode($course->features) as $feature)
+                            @foreach($course->features as $feature)
                                 <li><i class="fas fa-check"></i> {{ $feature }}</li>
                             @endforeach
                         </ul>
@@ -193,25 +188,61 @@
                             <span><i class="fas fa-play-circle"></i> {{ $course->lessons_count }} уроков</span>
                         </div>
 
-                            <div class="course-actions">
-                                <a href="/signup" class="btn {{ $course->popular ? 'btn-primary' : 'btn-outline' }} btn-full">
-                                    Бесплатный пробный урок
+                        <div class="course-actions">
+                            @auth
+                                @php
+                                    $userEnrollment = App\Models\Enrollment::where('user_id', auth()->id())
+                                        ->where('course_id', $course->id)
+                                        ->first();
+                                @endphp
+
+                                @if($userEnrollment)
+                                    @if($userEnrollment->canAccessCourse())
+                                        <a href="{{ route('learning.plan', $course->slug) }}" class="btn btn-primary">
+                                            <i class="fas fa-play-circle"></i> Продолжить обучение
+                                        </a>
+                                    @elseif($userEnrollment->status === 'pending')
+                                        <a href="{{ route('enrollment.checkout', $course->slug) }}" class="btn btn-primary">
+                                            <i class="fas fa-credit-card"></i> Оплатить курс
+                                        </a>
+                                    @endif
+                                @else
+                                    @if($course->price == 0)
+                                        <form action="{{ route('enrollment.free-enroll', $course->slug) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-user-plus"></i> Записаться бесплатно
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('enrollment.enroll', $course->slug) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-shopping-cart"></i> Записаться на курс
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endauth
+                            @else
+                                <a href="/signup" class="btn btn-primary">
+                                    <i class="fas fa-user-plus"></i> Записаться на курс
                                 </a>
-                                <div class="btn-row">
-                                    <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">
-                                        Подробнее
-                                    </a>
-                                    <a href="{{ route('learning.plan', $course->slug) }}" class="btn btn-plan">
-                                        <i class="fas fa-graduation-cap"></i> Учебный план
-                                    </a>
-                                </div>
+                            @endauth
+
+                            <div class="btn-row">
+                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-outline">
+                                    Подробнее
+                                </a>
+                                <a href="{{ route('learning.plan', $course->slug) }}" class="btn btn-plan">
+                                    <i class="fas fa-graduation-cap"></i> Учебный план
+                                </a>
                             </div>
+                        </div>
                     </div>
                 @endforeach
             </div>
         </div>
     </section>
-
 
     <section class="features" style="padding: 6rem 0;">
         <div class="container">
@@ -272,7 +303,6 @@
         </div>
     </section>
 
-
     <section class="cta">
         <div class="container">
             <div class="cta-card">
@@ -305,7 +335,6 @@
             const filterButtons = document.querySelectorAll('.courses-filters .btn');
             const courseCards = document.querySelectorAll('.pricing-card');
 
-            // Обработка кликов по фильтрам
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const filter = this.getAttribute('data-filter');
@@ -321,7 +350,6 @@
                 });
             });
 
-            // Анимация появления карточек
             courseCards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';

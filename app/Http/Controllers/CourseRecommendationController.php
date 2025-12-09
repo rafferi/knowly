@@ -16,9 +16,7 @@ class CourseRecommendationController extends Controller
     {
         $answers = $request->input('answers');
 
-
         $recommendation = $this->calculateRecommendation($answers);
-
 
         session(['course_recommendation' => $recommendation]);
 
@@ -38,14 +36,12 @@ class CourseRecommendationController extends Controller
 
     private function calculateRecommendation($answers)
     {
-
         $scores = [
             'business' => 0,
             'it' => 0,
             'academic' => 0,
             'daily' => 0
         ];
-
 
         if (isset($answers['goal'])) {
             $scores[$answers['goal']] += 3;
@@ -72,9 +68,7 @@ class CourseRecommendationController extends Controller
             if ($answers['topics'] === 'daily_topics') $scores['daily'] += 1;
         }
 
-
         $recommendedType = array_search(max($scores), $scores);
-
 
         return $this->getRecommendationData($recommendedType);
     }

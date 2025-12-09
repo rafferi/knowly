@@ -1,5 +1,4 @@
 <?php
-// [file name]: PlacementQuestion.php
 
 namespace App\Models;
 
@@ -23,14 +22,14 @@ class PlacementQuestion extends Model
         'options' => 'array',
     ];
 
-    // Добавим аксессор для гарантированного получения массива
+
     public function getOptionsAttribute($value)
     {
         if (is_array($value)) {
             return $value;
         }
 
-        // Если это JSON строка, декодируем ее
+
         if (is_string($value)) {
             $decoded = json_decode($value, true);
             return $decoded ?? [];

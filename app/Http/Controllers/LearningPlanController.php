@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Course, Module, Lesson, UserLearningProgress, Homework};
+use App\Models\{Course, Module, Lesson, UserLearningProgress};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -74,16 +74,11 @@ class LearningPlanController extends Controller
 
         $user = Auth::user();
         $userLesson = null;
-        $userHomework = null;
         $nextLesson = null;
         $prevLesson = null;
 
         if ($user) {
             $userLesson = $user->userLessons()
-                ->where('lesson_id', $lessonId)
-                ->first();
-
-            $userHomework = Homework::where('user_id', $user->id)
                 ->where('lesson_id', $lessonId)
                 ->first();
 
@@ -119,7 +114,6 @@ class LearningPlanController extends Controller
         return view('learning.lesson', compact(
             'lesson',
             'userLesson',
-            'userHomework',
             'nextLesson',
             'prevLesson'
         ));

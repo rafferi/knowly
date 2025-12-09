@@ -67,4 +67,20 @@ class Course extends Model
     {
         return $query->where('popular', true);
     }
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function activeEnrollments()
+    {
+        return $this->enrollments()->where('status', 'active');
+    }
+
+    public function enrolledUsers()
+    {
+        return $this->belongsToMany(User::class, 'enrollments')
+            ->withPivot('status', 'enrolled_at', 'completed_at')
+            ->withTimestamps();
+    }
 }

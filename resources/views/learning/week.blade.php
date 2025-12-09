@@ -124,11 +124,6 @@
                                                         <span class="text-muted me-3">
                                                             <i class="fas fa-clock"></i> {{ $lesson->estimated_time }} мин
                                                         </span>
-                                                        @if($lesson->has_homework)
-                                                            <span class="text-primary">
-                                                                <i class="fas fa-tasks"></i> Есть домашнее задание
-                                                            </span>
-                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -201,15 +196,6 @@
                                         {{ $completedLessons }}
                                     </div>
                                     <div class="stat-label">Завершено</div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 col-6 mb-3">
-                                <div class="stat-item">
-                                    <div class="stat-value" style="font-size: 2rem; color: #f59e0b;">
-                                        {{ $lessons->where('has_homework', true)->count() }}
-                                    </div>
-                                    <div class="stat-label">Домашних заданий</div>
                                 </div>
                             </div>
 

@@ -3,7 +3,7 @@
 @section('title', 'Регистрация - Knowly')
 
 @section('content')
-    <!-- Основной контент -->
+
     <div class="auth-container">
         <div class="auth-background">
             <div class="auth-bg-shape auth-shape-1"></div>
@@ -23,7 +23,7 @@
                 <p class="auth-subtitle">Создайте аккаунт для доступа ко всем курсам</p>
             </div>
 
-            <!-- Кнопка для прохождения теста -->
+
             <div style="text-align: center; margin-bottom: 2rem;">
                 <a href="/course-recommendation-test" class="btn" style="background: var(--light-blue); color: white; padding: 0.8rem 1.5rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; transition: all 0.3s ease;">
                     <i class="fas fa-search"></i>
@@ -125,7 +125,7 @@
 
 @section('scripts')
     <script>
-        // Переключение видимости пароля
+
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
             const icon = input.nextElementSibling.querySelector('i');
@@ -139,7 +139,7 @@
             }
         }
 
-        // Валидация формы
+
         document.querySelector('form').addEventListener('submit', function(e) {
             const password = document.getElementById('password');
             const confirmPassword = document.getElementById('password_confirmation');
