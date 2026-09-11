@@ -63,8 +63,9 @@
             <div class="questions-container">
                 @foreach($test->questions as $index => $question)
                     @php
-                        $questionId = $question->id;
-                        $questionType = $question->type;
+                        $questionId = $question->id ?? $index;
+                        $questionType = $question->type ?? 'multiple_choice';
+                        $questionOptions = $question->options ?? [];
                     @endphp
 
                     <div class="question-card" id="question-{{ $questionId }}"
@@ -73,7 +74,7 @@
 
                         <div class="question-header">
                             <h2>Вопрос {{ $index + 1 }}</h2>
-                            @if($question->points)
+                            @if($question->points ?? false)
                                 <div class="question-points">
                                     <i class="fas fa-star"></i>
                                     <span>{{ $question->points }} баллов</span>
@@ -82,11 +83,11 @@
                         </div>
 
                         <div class="question-content">
-                            <p class="question-text">{{ $question->question }}</p>
+                            <p class="question-text">{{ $question->question ?? 'Вопрос' }}</p>
 
                             @if($questionType === 'multiple_choice')
                                 <div class="options-container">
-                                    @foreach($question->options as $optionIndex => $option)
+                                    @foreach($questionOptions as $optionIndex => $option)
                                         <label class="option-label">
                                             <input type="radio"
                                                    name="answers[{{ $questionId }}]"
@@ -118,7 +119,7 @@
                                                 <i class="fas fa-check"></i>
                                             </div>
                                             <div class="option-text">
-                                                True
+                                                Верно
                                             </div>
                                         </div>
                                     </label>
@@ -134,7 +135,7 @@
                                                 <i class="fas fa-times"></i>
                                             </div>
                                             <div class="option-text">
-                                                False
+                                                Неверно
                                             </div>
                                         </div>
                                     </label>
@@ -181,7 +182,7 @@
             <div class="questions-nav-grid" id="questions-nav">
                 @foreach($test->questions as $index => $question)
                     @php
-                        $questionId = $question->id;
+                        $questionId = $question->id ?? $index;
                     @endphp
                     <button type="button"
                             class="nav-btn"

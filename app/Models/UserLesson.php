@@ -1,5 +1,4 @@
 <?php
-// app/Models/UserLesson.php
 
 namespace App\Models;
 
@@ -13,27 +12,27 @@ class UserLesson extends Model
     protected $fillable = [
         'user_id',
         'lesson_id',
+        'module_id',
+        'section_id',
         'completed',
         'score',
+        'completion_percentage',
         'time_spent',
+        'lesson_stats',
         'completed_at',
-        'module_id',
-'week_number',
-'lesson_stats',
-'completion_percentage',
-'started_at',
-'last_accessed_at'
+        'started_at',
+        'last_accessed_at'
     ];
 
     protected $casts = [
         'completed' => 'boolean',
         'completed_at' => 'datetime',
-        'lesson_stats' => 'array'
+        'started_at' => 'datetime',
+        'last_accessed_at' => 'datetime',
+        'lesson_stats' => 'array',
+        'completion_percentage' => 'decimal:2'
     ];
-    public function module()
-    {
-        return $this->belongsTo(Module::class);
-    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -42,5 +41,15 @@ class UserLesson extends Model
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
+    }
+
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
     }
 }

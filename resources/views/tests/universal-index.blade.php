@@ -9,162 +9,257 @@
             <p>Пройдите тесты для проверки знаний и отслеживания прогресса</p>
         </div>
 
-        <div class="tests-navigation">
-            <div class="nav-buttons">
-                <a href="#placement" class="nav-btn active" data-type="placement">
-                    <i class="fas fa-clipboard-check"></i>
-                    <span>Placement Test</span>
-                </a>
-                <a href="#module" class="nav-btn" data-type="module_test">
-                    <i class="fas fa-book"></i>
-                    <span>Модульные тесты</span>
-                </a>
-                <a href="#weekly" class="nav-btn" data-type="weekly_test">
-                    <i class="fas fa-calendar-week"></i>
-                    <span>Недельные тесты</span>
-                </a>
-                <a href="#midterm" class="nav-btn" data-type="midterm">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Midterm Tests</span>
-                </a>
-                <a href="#final" class="nav-btn" data-type="final">
-                    <i class="fas fa-trophy"></i>
-                    <span>Финальные тесты</span>
-                </a>
-                <a href="#practice" class="nav-btn" data-type="practice">
-                    <i class="fas fa-dumbbell"></i>
-                    <span>Практические тесты</span>
-                </a>
+        @if(session('message'))
+            <div class="alert alert-info">
+                {{ session('message') }}
             </div>
-        </div>
+        @endif
 
-        @foreach($tests as $type => $typeTests)
-            <section id="{{ $type }}" class="test-section" style="{{ $type !== 'placement' ? 'display: none;' : '' }}">
-                <h2 class="section-title">
-                    @php
-                        $titles = [
-                            'placement' => '📊 Placement Test',
-                            'module_test' => '📘 Модульные тесты',
-                            'weekly_test' => '📅 Недельные тесты',
-                            'midterm' => '🎯 Midterm Tests',
-                            'final' => '🏆 Финальные тесты',
-                            'practice' => '💪 Практические тесты'
-                        ];
-                    @endphp
-                    {{ $titles[$type] ?? $type }}
-                </h2>
+        <!-- Секция с текущим курсом -->
+        @if(isset($latestUserCourse) && $latestUserCourse)
+            <div class="current-course-section mb-5">
+                <div class="current-course-card">
+                    <div class="course-header">
+                        <div class="course-title">
+                            <h3><i class="fas fa-graduation-cap"></i> Текущий курс для тестирования</h3>
+                        </div>
+                        <div class="course-badge">
+                            Активный курс
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h4>{{ $latestUserCourse->course->title }}</h4>
+                        <p class="course-description">{{ $latestUserCourse->course->short_description ?? $latestUserCourse->course->description }}</p>
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-signal"></i>
+                                <span>Уровень: {{ $latestUserCourse->course->level }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Записан: {{ $latestUserCourse->created_at->format('d.m.Y') }}</span>
+                            </div>
+                            @if($latestUserCourse->completed_at)
+                                <div class="meta-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Завершен: {{ $latestUserCourse->completed_at->format('d.m.Y') }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
-                @if($type === 'placement')
-                    <div class="placement-test-info">
-                        <div class="info-card">
-                            <h3>Тест для определения уровня</h3>
-                            <p>Определите свой текущий уровень английского языка для выбора оптимальной программы обучения</p>
-                            <div class="info-details">
-                                <span><i class="fas fa-clock"></i> 45 минут</span>
-                                <span><i class="fas fa-question-circle"></i> 5 вопросов</span>
-                                <span><i class="fas fa-chart-bar"></i> Определение уровня A1-C2</span>
+                <!-- Переключатель курсов (если есть другие курсы) -->
+                @if($allUserCourses && $allUserCourses->count() > 1)
+                    <div class="course-switcher mt-3">
+                        <p class="switcher-label">
+                            <i class="fas fa-exchange-alt"></i>
+                            У вас есть {{ $allUserCourses->count() }} активных курсов.
+                            <button class="btn btn-link p-0" type="button" data-bs-toggle="collapse" data-bs-target="#allCoursesList">
+                                Показать все курсы
+                            </button>
+                        </p>
+
+                        <div class="collapse" id="allCoursesList">
+                            <div class="all-courses-list">
+                                @foreach($allUserCourses as $userCourse)
+                                    <div class="course-item {{ $userCourse->id == $latestUserCourse->id ? 'active' : '' }}">
+                                        <div class="course-item-title">
+                                            {{ $userCourse->course->title }}
+                                        </div>
+                                        <div class="course-item-meta">
+                                            <span>Записан: {{ $userCourse->created_at->format('d.m.Y') }}</span>
+                                            @if($userCourse->id == $latestUserCourse->id)
+                                                <span class="badge bg-success">Текущий для тестов</span>
+                                            @else
+                                                <span class="badge bg-secondary">Другой курс</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 @endif
+            </div>
+        @endif
 
-                <div class="tests-grid">
-                    @foreach($typeTests as $test)
+        <!-- Навигация по типам тестов -->
+        @if($tests->isNotEmpty())
+            <div class="tests-navigation">
+                <div class="nav-buttons">
+                    <a href="#placement" class="nav-btn active" data-type="placement">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Тест на определение уровня</span>
+                    </a>
+                    <a href="#module" class="nav-btn" data-type="module_test">
+                        <i class="fas fa-book"></i>
+                        <span>Модульные тесты</span>
+                    </a>
+                    <a href="#weekly" class="nav-btn" data-type="weekly_test">
+                        <i class="fas fa-calendar-week"></i>
+                        <span>Недельные тесты</span>
+                    </a>
+                    <a href="#midterm" class="nav-btn" data-type="midterm">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Промежуточные тесты</span>
+                    </a>
+                    <a href="#final" class="nav-btn" data-type="final">
+                        <i class="fas fa-trophy"></i>
+                        <span>Финальные тесты</span>
+                    </a>
+                    <a href="#practice" class="nav-btn" data-type="practice">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>Практические тесты</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Секции с тестами -->
+            @foreach($tests as $type => $typeTests)
+                <section id="{{ $type }}" class="test-section" style="{{ $type !== 'placement' ? 'display: none;' : '' }}">
+                    <h2 class="section-title">
                         @php
-                            $userResult = $userResults[$test->id] ?? null;
-                            $bestScore = null;
-                            if ($userResult) {
-                                $bestResult = \App\Models\TestResult::where('user_id', Auth::id())
-                                    ->where('test_id', $test->id)
-                                    ->orderBy('score', 'desc')
-                                    ->first();
-                                $bestScore = $bestResult->score ?? null;
-                            }
+                            $titles = [
+                                'placement' => 'Тест на определение уровня',
+                                'module_test' => 'Модульные тесты',
+                                'weekly_test' => 'Недельные тесты',
+                                'midterm' => 'Промежуточные тесты',
+                                'final' => 'Финальные тесты',
+                                'practice' => 'Практические тесты'
+                            ];
                         @endphp
+                        {{ $titles[$type] ?? $type }}
+                    </h2>
 
-                        <div class="test-card">
-                            <div class="test-header">
-                                <div class="test-badge test-{{ $test->type }}">
-                                    {{ $test->type_label }}
+                    @if($type === 'placement')
+                        <div class="placement-test-info">
+                            <div class="info-card">
+                                <h3>Тест для определения уровня</h3>
+                                <p>Определите свой текущий уровень английского языка для выбора оптимальной программы обучения</p>
+                                <div class="info-details">
+                                    <span><i class="fas fa-clock"></i> 45 минут</span>
+                                    <span><i class="fas fa-question-circle"></i> 5 вопросов</span>
+                                    <span><i class="fas fa-chart-bar"></i> Определение уровня A1-C2</span>
                                 </div>
-                                @if($test->week_number)
-                                    <div class="week-badge">
-                                        Неделя {{ $test->week_number }}
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="test-content">
-                                <h3>{{ $test->title }}</h3>
-                                <p class="test-description">{{ $test->description }}</p>
-
-                                <div class="test-meta">
-                                    <div class="meta-item">
-                                        <i class="fas fa-clock"></i>
-                                        <span>{{ $test->estimated_time }}</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <i class="fas fa-question-circle"></i>
-                                        <span>{{ $test->total_questions }} вопросов</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>{{ $test->passing_score }}% для прохождения</span>
-                                    </div>
-                                </div>
-
-                                @if($test->module)
-                                    <div class="module-info">
-                                        <i class="fas fa-book-open"></i>
-                                        <span>Модуль: {{ $test->module->title }}</span>
-                                    </div>
-                                @endif
-
-                                @if($userResult)
-                                    <div class="user-results">
-                                        <div class="result-summary">
-                                            <div class="score-display">
-                                                <span class="score-label">Лучший результат:</span>
-                                                <span class="score-value">{{ $bestScore ?? 0 }}/{{ $test->total_points }}</span>
-                                                <span class="score-percentage">
-                                                @if($test->total_points > 0)
-                                                        {{ round(($bestScore / $test->total_points) * 100) }}%
-                                                    @endif
-                                            </span>
-                                            </div>
-                                            <div class="attempts">
-                                                <i class="fas fa-redo"></i>
-                                                <span>Попыток: {{ $test->testResults()->where('user_id', Auth::id())->count() }}/{{ $test->max_attempts }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="test-actions">
-                                @if(!$userResult || $test->testResults()->where('user_id', Auth::id())->count() < $test->max_attempts)
-                                    <a href="{{ route('universal-tests.start', $test->id) }}" class="btn btn-primary">
-                                        @if($userResult)
-                                            <i class="fas fa-redo"></i> Пройти снова
-                                        @else
-                                            <i class="fas fa-play"></i> Начать тест
-                                        @endif
-                                    </a>
-                                @else
-                                    <button class="btn btn-secondary" disabled>
-                                        <i class="fas fa-ban"></i> Попытки исчерпаны
-                                    </button>
-                                @endif
-
-                                <a href="{{ route('universal-tests.show', $test->id) }}" class="btn btn-outline">
-                                    <i class="fas fa-info-circle"></i> Подробнее
-                                </a>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            </section>
-        @endforeach
+                    @endif
+
+                    <div class="tests-grid">
+                        @foreach($typeTests as $test)
+                            @php
+                                $userResult = $userResults[$test->id] ?? null;
+                                $bestScore = null;
+                                if ($userResult) {
+                                    $bestResult = \App\Models\TestResult::where('user_id', Auth::id())
+                                        ->where('test_id', $test->id)
+                                        ->orderBy('score', 'desc')
+                                        ->first();
+                                    $bestScore = $bestResult->score ?? null;
+                                }
+                            @endphp
+
+                            <div class="test-card">
+                                <div class="test-header">
+                                    <div class="test-badge test-{{ $test->type }}">
+                                        {{ $test->type_label }}
+                                    </div>
+                                    @if($test->week_number)
+                                        <div class="week-badge">
+                                            Неделя {{ $test->week_number }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="test-content">
+                                    <h3>{{ $test->title }}</h3>
+                                    <p class="test-description">{{ $test->description }}</p>
+
+                                    @if($test->course)
+                                        <div class="course-badge">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            {{ $test->course->title }}
+                                        </div>
+                                    @endif
+
+                                    <div class="test-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>{{ $test->estimated_time }}</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-question-circle"></i>
+                                            <span>{{ $test->total_questions }} вопросов</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-chart-line"></i>
+                                            <span>{{ $test->passing_score }}% для прохождения</span>
+                                        </div>
+                                    </div>
+
+                                    @if($test->module)
+                                        <div class="module-info">
+                                            <i class="fas fa-book-open"></i>
+                                            <span>Модуль: {{ $test->module->title }}</span>
+                                        </div>
+                                    @endif
+
+                                    @if($userResult)
+                                        <div class="user-results">
+                                            <div class="result-summary">
+                                                <div class="score-display">
+                                                    <span class="score-label">Лучший результат:</span>
+                                                    <span class="score-value">{{ $bestScore ?? 0 }}/{{ $test->total_points }}</span>
+                                                    <span class="score-percentage">
+                                                    @if($test->total_points > 0)
+                                                            {{ round(($bestScore / $test->total_points) * 100) }}%
+                                                        @endif
+                                                </span>
+                                                </div>
+                                                <div class="attempts">
+                                                    <i class="fas fa-redo"></i>
+                                                    <span>Попыток: {{ $test->testResults()->where('user_id', Auth::id())->count() }}/{{ $test->max_attempts }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="test-actions">
+                                    @if(!$userResult || $test->testResults()->where('user_id', Auth::id())->count() < $test->max_attempts)
+                                        <a href="{{ route('universal-tests.start', $test->id) }}" class="btn btn-primary">
+                                            @if($userResult)
+                                                <i class="fas fa-redo"></i> Пройти снова
+                                            @else
+                                                <i class="fas fa-play"></i> Начать тест
+                                            @endif
+                                        </a>
+                                    @else
+                                        <button class="btn btn-secondary" disabled>
+                                            <i class="fas fa-ban"></i> Попытки исчерпаны
+                                        </button>
+                                    @endif
+
+                                    <a href="{{ route('universal-tests.show', $test->id) }}" class="btn btn-outline">
+                                        <i class="fas fa-info-circle"></i> Подробнее
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+            @endforeach
+        @else
+            <div class="no-tests-message">
+                <i class="fas fa-info-circle"></i>
+                <h3>Нет доступных тестов</h3>
+                <p>На данный момент у вас нет доступных тестов для текущего курса.</p>
+                @if(isset($latestUserCourse))
+                    <p>Текущий курс: <strong>{{ $latestUserCourse->course->title }}</strong></p>
+                @endif
+            </div>
+        @endif
     </div>
 
     <style>
@@ -190,6 +285,160 @@
             font-size: 1.1rem;
         }
 
+        .current-course-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .current-course-card {
+            border-left: 5px solid var(--grenadine);
+            padding-left: 1rem;
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .course-title h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .course-title i {
+            color: var(--grenadine);
+        }
+
+        .course-badge {
+            background: var(--grenadine);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .course-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--black-beauty);
+        }
+
+        .course-description {
+            color: var(--ultimate-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--ultimate-gray);
+        }
+
+        .meta-item i {
+            color: var(--grenadine);
+        }
+
+        .course-switcher {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--nimbus-cloud);
+        }
+
+        .switcher-label {
+            color: var(--ultimate-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .switcher-label i {
+            color: var(--grenadine);
+            margin-right: 0.5rem;
+        }
+
+        .switcher-label .btn-link {
+            color: var(--grenadine);
+            text-decoration: none;
+        }
+
+        .all-courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .course-item {
+            padding: 1rem;
+            background: var(--gray-light);
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+        }
+
+        .course-item.active {
+            background: rgba(223, 63, 50, 0.05);
+            border-left-color: var(--grenadine);
+        }
+
+        .course-item-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--ultimate-gray);
+            font-size: 0.9rem;
+        }
+
+        .course-item-meta span {
+            margin-right: 1rem;
+        }
+
+        /* Остальные стили остаются как в предыдущей версии */
+        .no-tests-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .no-tests-message i {
+            font-size: 4rem;
+            color: var(--grenadine);
+            margin-bottom: 1rem;
+        }
+
+        .no-tests-message h3 {
+            margin-bottom: 1rem;
+            color: var(--black-beauty);
+        }
+
+        .no-tests-message p {
+            color: var(--ultimate-gray);
+            margin-bottom: 0.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Навигация и тесты - стили как в предыдущей версии */
         .tests-navigation {
             margin-bottom: 3rem;
             overflow-x: auto;
@@ -365,14 +614,26 @@
 
         .test-description {
             color: var(--ultimate-gray);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             line-height: 1.6;
+        }
+
+        .course-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(223, 63, 50, 0.1);
+            border-radius: 20px;
+            color: var(--grenadine);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
 
         .test-meta {
             display: flex;
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
 
@@ -477,6 +738,17 @@
 
             .tests-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .course-item-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
             }
 
             .info-details {

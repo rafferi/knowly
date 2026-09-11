@@ -101,7 +101,6 @@
 
 @section('scripts')
     <script>
-        // Переключение видимости пароля
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
             const icon = input.nextElementSibling.querySelector('i');

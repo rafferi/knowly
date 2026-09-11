@@ -12,13 +12,15 @@
                         <a href="{{ route('courses.show', $lesson->course->slug) }}">{{ $lesson->course->title }}</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ route('learning.plan', $lesson->course->slug) }}">Учебный план</a>
+                        <a href="{{ route('learning.plan', ['courseSlug' => $lesson->course->slug]) }}">Учебный план</a>
                     </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('learning.week', ['course' => $lesson->course->slug, 'week' => $lesson->week_number]) }}">
-                            Неделя {{ $lesson->week_number }}
-                        </a>
-                    </li>
+                    @if($lesson->module)
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('learning.week', ['courseSlug' => $lesson->course->slug, 'week' => $lesson->module->order_index]) }}">
+                                Модуль {{ $lesson->module->order_index }}
+                            </a>
+                        </li>
+                    @endif
                     <li class="breadcrumb-item active">{{ Str::limit($lesson->title, 30) }}</li>
                 </ol>
             </nav>
@@ -39,7 +41,7 @@
                                         <span class="text-muted me-3">
                                             <i class="fas fa-clock"></i> {{ $lesson->estimated_time }} мин
                                         </span>
-                                        @if($lesson->week_number <= 2 || $lesson->is_free)
+                                        @if($lesson->order_index <= 2 || $lesson->is_free)
                                             <span class="badge bg-success">Бесплатный</span>
                                         @endif
                                     </div>
@@ -75,20 +77,39 @@
                             </div>
 
                             <!-- Материалы урока -->
-                            @if($lesson->learning_materials && is_array(json_decode($lesson->learning_materials, true)))
+                            @php
+                                $learningMaterials = $lesson->learning_materials;
+                                if (is_string($learningMaterials)) {
+                                    $learningMaterials = json_decode($learningMaterials, true);
+                                }
+                            @endphp
+
+                            @if($learningMaterials && is_array($learningMaterials) && count($learningMaterials) > 0)
                                 <div class="lesson-materials mt-4">
                                     <h4><i class="fas fa-download"></i> Материалы урока</h4>
                                     <div class="list-group">
-                                        @foreach(json_decode($lesson->learning_materials, true) as $material)
-                                            <a href="{{ $material['url'] }}" class="list-group-item list-group-item-action">
-                                                <div class="d-flex w-100 justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-file-{{ $material['type'] == 'pdf' ? 'pdf' : 'video' }} me-2"></i>
-                                                        {{ $material['title'] }}
+                                        @foreach($learningMaterials as $material)
+                                            @if(is_array($material))
+                                                <a href="{{ $material['url'] ?? '#' }}" class="list-group-item list-group-item-action">
+                                                    <div class="d-flex w-100 justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="fas fa-file-pdf me-2"></i>
+                                                            {{ $material['title'] ?? 'Материал' }}
+                                                        </div>
+                                                        <small class="text-muted">Скачать</small>
                                                     </div>
-                                                    <small class="text-muted">Скачать</small>
+                                                </a>
+                                            @else
+                                                <div class="list-group-item">
+                                                    <div class="d-flex w-100 justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="fas fa-file me-2"></i>
+                                                            {{ $material }}
+                                                        </div>
+                                                        <small class="text-muted">Материал</small>
+                                                    </div>
                                                 </div>
-                                            </a>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -100,7 +121,7 @@
                                 <!-- Навигация -->
                                 <div>
                                     @if($prevLesson)
-                                        <a href="{{ route('learning.lesson', ['course' => $lesson->course->slug, 'lesson' => $prevLesson->id]) }}"
+                                        <a href="{{ route('learning.lesson', ['courseSlug' => $lesson->course->slug, 'lesson' => $prevLesson->id]) }}"
                                            class="btn-secondary-new">
                                             <i class="fas fa-arrow-left"></i> Предыдущий урок
                                         </a>
@@ -134,7 +155,7 @@
 
                                 <div>
                                     @if($nextLesson)
-                                        <a href="{{ route('learning.lesson', ['course' => $lesson->course->slug, 'lesson' => $nextLesson->id]) }}"
+                                        <a href="{{ route('learning.lesson', ['courseSlug' => $lesson->course->slug, 'lesson' => $nextLesson->id]) }}"
                                            class="btn-primary-new">
                                             Следующий урок <i class="fas fa-arrow-right"></i>
                                         </a>
@@ -158,9 +179,15 @@
                                     Курс
                                     <span class="badge bg-grenadine">{{ Str::limit($lesson->course->title, 20) }}</span>
                                 </li>
+                                @if($lesson->module)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Модуль
+                                        <span class="badge bg-info">Модуль {{ $lesson->module->order_index }}</span>
+                                    </li>
+                                @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Неделя
-                                    <span class="badge bg-info">Неделя {{ $lesson->week_number }}</span>
+                                    Порядковый номер
+                                    <span class="badge bg-info">Урок {{ $lesson->order }}</span>
                                 </li>
                                 @if($lesson->module)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -170,7 +197,7 @@
                                 @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Тип урока
-                                    <span class="badge bg-secondary">{{ $lesson->lesson_type_label }}</span>
+                                    <span class="badge bg-secondary">{{ $lesson->lesson_type_label ?? $lesson->lesson_type }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Время
@@ -181,20 +208,23 @@
                     </div>
 
                     <!-- Дополнительные ресурсы -->
-                    @if($lesson->additional_resources && is_array(json_decode($lesson->additional_resources, true)))
+                    @php
+                        $additionalResources = $lesson->additional_resources;
+                        if (is_string($additionalResources)) {
+                            $additionalResources = json_decode($additionalResources, true);
+                        }
+                    @endphp
+
+                    @if($additionalResources && is_array($additionalResources) && count($additionalResources) > 0)
                         <div class="dashboard-card mb-4">
                             <div class="card-header">
                                 <h5 class="mb-0">Дополнительные ресурсы</h5>
                             </div>
                             <div class="card-body">
-                                @php
-                                    $resources = json_decode($lesson->additional_resources, true);
-                                @endphp
-
-                                @if(isset($resources['links']) && is_array($resources['links']))
+                                @if(isset($additionalResources['links']) && is_array($additionalResources['links']))
                                     <h6>Полезные ссылки:</h6>
                                     <ul class="list-unstyled">
-                                        @foreach($resources['links'] as $link)
+                                        @foreach($additionalResources['links'] as $link)
                                             <li class="mb-2">
                                                 <a href="{{ $link['url'] }}" target="_blank" class="text-decoration-none">
                                                     <i class="fas fa-external-link-alt me-2"></i>{{ $link['title'] }}
@@ -204,10 +234,10 @@
                                     </ul>
                                 @endif
 
-                                @if(isset($resources['recommendations']) && is_array($resources['recommendations']))
+                                @if(isset($additionalResources['recommendations']) && is_array($additionalResources['recommendations']))
                                     <h6 class="mt-3">Рекомендации:</h6>
                                     <ul>
-                                        @foreach($resources['recommendations'] as $recommendation)
+                                        @foreach($additionalResources['recommendations'] as $recommendation)
                                             <li class="mb-1"><small>{{ $recommendation }}</small></li>
                                         @endforeach
                                     </ul>
@@ -249,7 +279,7 @@
                                 </div>
 
                                 <div class="text-center mt-3">
-                                    <a href="{{ route('learning.plan', $lesson->course->slug) }}"
+                                    <a href="{{ route('learning.plan', ['courseSlug' => $lesson->course->slug]) }}"
                                        class="btn-secondary-new btn-sm">
                                         <i class="fas fa-chart-line"></i> Подробная статистика
                                     </a>

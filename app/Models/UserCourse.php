@@ -45,8 +45,8 @@ class UserCourse extends Model
         return $this->current_lesson;
     }
 
-    public function getTotalLessonsAttribute()
+    public function getTotalLessonsAttribute(): int
     {
-        return $this->course->lessons_count ?? 0;
+        return $this->course->published_lessons_count;
     }
 }

@@ -83,7 +83,7 @@
                         <div class="price-note-new">При оплате за весь курс - скидка 20%</div>
 
                         <ul class="pricing-features mt-4">
-                            @foreach(json_decode($course->features) as $feature)
+                            @foreach($course->features as $feature)
                                 <li><i class="fas fa-check text-success me-2"></i> {{ $feature }}</li>
                             @endforeach
                         </ul>

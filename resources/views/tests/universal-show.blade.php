@@ -3,8 +3,8 @@
 @section('title', $test->title . ' - Knowly')
 
 @section('content')
-    <div class="test-detail-container">
-        <div class="test-detail-header">
+    <div class="lesson-container">
+        <div class="container" style="padding-top: 100px;">
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Главная</a></li>
@@ -159,7 +159,7 @@
 
                                         @if($attempt->completed_at)
                                             <div class="attempt-actions">
-                                                <a href="{{ route('tests.universal-tests.results', $attempt->id) }}" class="btn btn-sm btn-outline">
+                                                <a href="{{ route('universal-tests.results', $attempt->id) }}" class="btn btn-sm btn-outline">
                                                     <i class="fas fa-chart-bar"></i> Подробнее
                                                 </a>
                                             </div>
@@ -206,7 +206,7 @@
                         </div>
 
                         @if($canTakeTest)
-                                <a href="{{ route('tests.universal-tests.start', $test->id) }}" class="btn btn-primary btn-lg w-100 mb-3">
+                            <a href="{{ route('universal-tests.start', $test->id) }}" class="btn btn-primary btn-lg w-100 mb-3">
                                 <i class="fas fa-play-circle"></i>
                                 @if($attempts->count() > 0)
                                     Пройти еще раз (Попытка #{{ $nextAttempt }})

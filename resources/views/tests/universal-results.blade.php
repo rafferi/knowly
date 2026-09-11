@@ -147,7 +147,7 @@
                                             <div class="options-review">
                                                 <div class="true-false-review">
                                                     <div class="tf-option {{ $item['correct_answer'] === 'true' ? 'correct-answer' : '' }}">
-                                                        <span class="tf-label">True</span>
+                                                        <span class="tf-label">Верно</span>
                                                         @if($item['correct_answer'] === 'true')
                                                             <span class="correct-marker">
                                                             <i class="fas fa-check-circle"></i> Правильный ответ
@@ -155,7 +155,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="tf-option {{ $item['correct_answer'] === 'false' ? 'correct-answer' : '' }}">
-                                                        <span class="tf-label">False</span>
+                                                        <span class="tf-label">Неверно</span>
                                                         @if($item['correct_answer'] === 'false')
                                                             <span class="correct-marker">
                                                             <i class="fas fa-check-circle"></i> Правильный ответ
@@ -166,7 +166,7 @@
 
                                                 @if($item['user_answer'])
                                                     <div class="user-answer">
-                                                        Ваш ответ: <strong>{{ $item['user_answer'] === 'true' ? 'True' : 'False' }}</strong>
+                                                        Ваш ответ: <strong>{{ $item['user_answer'] === 'true' ? 'Верно' : 'Неверно' }}</strong>
                                                         @if($item['is_correct'])
                                                             <span class="badge bg-success">Правильно</span>
                                                         @else
@@ -300,8 +300,8 @@
                                 <i class="fas fa-list"></i> Все тесты
                             </a>
 
-                            @if($testResult->test->course)
-                                <a href="{{ route('learning.plan', $testResult->test->course->slug) }}" class="btn btn-outline w-100">
+                                @if($testResult->test->course)
+                                    <a href="{{ route('lectures.index', ['courseSlug' => $testResult->test->course->slug]) }}" class="btn btn-outline w-100">
                                     <i class="fas fa-graduation-cap"></i> К учебному плану
                                 </a>
                             @endif

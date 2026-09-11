@@ -6,6 +6,7 @@ use App\Models\Test;
 use App\Models\TestQuestion;
 use App\Models\TestResult;
 use App\Models\UserLearningProgress;
+use App\Models\UserCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,29 +17,64 @@ class UniversalTestController extends Controller
     {
         $user = Auth::user();
 
+        // Получаем все активные курсы пользователя
+        $activeCourses = UserCourse::where('user_id', $user->id)
+            ->whereNull('completed_at')
+            ->with('course')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($activeCourses->isEmpty()) {
+            $placementTest = Test::where('is_active', true)
+                ->where('type', 'placement')
+                ->with(['course', 'module'])
+                ->first();
+
+            $tests = collect();
+            if ($placementTest) {
+                $tests['placement'] = collect([$placementTest]);
+            }
+
+            $userResults = collect();
+            return view('tests.universal-index', compact('tests', 'userResults', 'activeCourses'))
+                ->with('message', 'Вы не записаны ни на один курс. Доступен только placement test.');
+        }
+
+        $courseIds = $activeCourses->pluck('course_id')->toArray();
         $tests = Test::where('is_active', true)
+            ->where(function($query) use ($courseIds) {
+                $query->where('type', 'placement')
+                    ->orWhereIn('course_id', $courseIds);
+            })
             ->with(['course', 'module'])
             ->orderBy('type')
-            ->orderBy('week_number')
+            ->orderBy('order_index')
             ->get()
-            ->filter(function($test) use ($user) {
-                return $test->isAccessibleForUser($user);
-            })
             ->groupBy('type');
 
+        if ($tests->has('placement')) {
+            $placementTests = $tests['placement'];
+            if ($placementTests->isNotEmpty()) {
+                $tests['placement'] = collect([$placementTests->first()]);
+            }
+        }
+
         $userResults = TestResult::where('user_id', $user->id)
+            ->whereIn('test_id', $tests->flatten()->pluck('id'))
             ->get()
             ->keyBy('test_id');
 
-        return view('tests.universal-index', compact('tests', 'userResults'));
+        $allUserCourses = $activeCourses;
+
+        return view('tests.universal-index', compact('tests', 'userResults', 'allUserCourses', 'activeCourses'));
     }
 
     public function show($testId)
     {
-        $test = Test::with(['course', 'module', 'questions'])->findOrFail($testId);
         $user = Auth::user();
+        $test = Test::with(['course', 'module', 'questions'])->findOrFail($testId);
 
-        if (!$test->isAccessibleForUser($user)) {
+        if (!$this->checkTestAccess($user, $test)) {
             return redirect()->route('universal-tests.index')
                 ->with('error', 'У вас нет доступа к этому тесту');
         }
@@ -57,10 +93,10 @@ class UniversalTestController extends Controller
 
     public function start($testId)
     {
-        $test = Test::with(['questions'])->findOrFail($testId);
         $user = Auth::user();
+        $test = Test::with(['questions'])->findOrFail($testId);
 
-        if (!$test->isAccessibleForUser($user)) {
+        if (!$this->checkTestAccess($user, $test)) {
             return redirect()->route('universal-tests.index')
                 ->with('error', 'У вас нет доступа к этому тесту');
         }
@@ -99,17 +135,26 @@ class UniversalTestController extends Controller
 
     public function submit(Request $request, $testId)
     {
-        $test = Test::with(['questions'])->findOrFail($testId);
         $user = Auth::user();
+        $test = Test::with(['questions'])->findOrFail($testId);
+
+        if (!$this->checkTestAccess($user, $test)) {
+            return redirect()->route('universal-tests.index')
+                ->with('error', 'У вас нет доступа к этому тесту');
+        }
 
         $testResult = TestResult::where('user_id', $user->id)
             ->where('test_id', $test->id)
             ->whereNull('completed_at')
             ->latest()
-            ->firstOrFail();
+            ->first();
+
+        if (!$testResult) {
+            return redirect()->route('universal-tests.show', $test->id)
+                ->with('error', 'Не найдено активной попытки теста. Начните тест заново.');
+        }
 
         $timeSpent = now()->diffInSeconds($testResult->started_at);
-
         if ($test->time_limit && $timeSpent > ($test->time_limit * 60)) {
             $timeSpent = $test->time_limit * 60;
         }
@@ -157,7 +202,7 @@ class UniversalTestController extends Controller
             'correct_answers_list' => $correctAnswersList
         ]);
 
-        $this->updateUserProgress($user, $test, $passed, $score);
+        $this->updateUserProgress($user, $test, $passed, $score, $correctAnswers);
 
         return redirect()->route('universal-tests.results', $testResult->id)
             ->with('success', $passed ? 'Поздравляем! Тест пройден.' : 'Тест не пройден.');
@@ -209,40 +254,58 @@ class UniversalTestController extends Controller
         return redirect()->route('universal-tests.show', $test->id);
     }
 
-    public function practice($courseSlug)
+    private function checkTestAccess($user, $test)
     {
-        $course = \App\Models\Course::where('slug', $courseSlug)->firstOrFail();
-        $user = Auth::user();
+        if ($test->type === 'placement') {
+            $mainPlacementTest = Test::where('is_active', true)
+                ->where('type', 'placement')
+                ->first();
 
-        $practiceTests = Test::where('course_id', $course->id)
-            ->where('type', 'practice')
-            ->where('is_active', true)
-            ->with(['questions'])
-            ->orderBy('week_number')
-            ->get()
-            ->filter(function($test) use ($user) {
-                return $test->isAccessibleForUser($user);
-            });
+            return $mainPlacementTest && $test->id === $mainPlacementTest->id;
+        }
 
-        return view('tests.practice-index', compact('course', 'practiceTests'));
+        // Проверяем, записан ли пользователь на курс, к которому относится тест
+        $userCourse = UserCourse::where('user_id', $user->id)
+            ->where('course_id', $test->course_id)
+            ->whereNull('completed_at')
+            ->first();
+
+        if (!$userCourse) {
+            return false;
+        }
+
+        return $test->isAccessibleForUser($user);
     }
 
-    private function updateUserProgress($user, $test, $passed, $score)
+    private function updateUserProgress($user, $test, $passed, $score, $correctAnswers)
     {
         if ($passed) {
-            $user->increment('xp', $score * 10);
+            $xpAmount = $correctAnswers * 10;
+            $user->addXp($xpAmount, 'test', $test->id);
 
             if ($test->type !== 'placement' && $test->type !== 'practice') {
+                $courseProgress = DB::table('user_course_progress')
+                    ->where('user_id', $user->id)
+                    ->where('course_id', $test->course_id)
+                    ->first();
+
+                if ($courseProgress) {
+                    DB::table('user_course_progress')
+                        ->where('user_id', $user->id)
+                        ->where('course_id', $test->course_id)
+                        ->update([
+                            'completed_tests' => $courseProgress->completed_tests + 1,
+                            'last_activity_at' => now(),
+                            'updated_at' => now()
+                        ]);
+                }
+
                 $progress = UserLearningProgress::where('user_id', $user->id)
                     ->where('course_id', $test->course_id)
                     ->first();
 
                 if ($progress) {
-                    $stats = $progress->stats ?? [];
-                    $stats['tests_passed'] = ($stats['tests_passed'] ?? 0) + 1;
-                    $stats['total_test_score'] = ($stats['total_test_score'] ?? 0) + $score;
-
-                    $progress->stats = $stats;
+                    $progress->last_study_date = now();
                     $progress->save();
                 }
             }

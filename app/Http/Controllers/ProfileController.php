@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\UserCourse;
 use App\Models\Course;
+use App\Models\UserLesson;
+use App\Models\TestResult;
+use App\Models\UserAchievement;
+use App\Models\Achievement;
 
 class ProfileController extends Controller
 {
@@ -17,17 +21,83 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-
+        // Загружаем все необходимые данные
         $user->load([
             'activeCourses.course',
             'completedCourses.course',
-            'achievements',
             'userLessons' => function($query) {
-                $query->orderBy('completed_at', 'desc')->limit(10);
+                $query->with('lesson')
+                    ->where('completed', true)
+                    ->orderBy('completed_at', 'desc')
+                    ->limit(15);
+            },
+            'testResults' => function($query) {
+                $query->with('test')
+                    ->orderBy('completed_at', 'desc')
+                    ->limit(15);
+            },
+            'dailyActivities' => function($query) {
+                $query->orderBy('activity_date', 'desc')
+                    ->limit(7);
             }
         ]);
 
-        return view('profile', compact('user'));
+        // Загружаем достижения через отдельный запрос без pivot
+        $achievementsData = \DB::table('user_achievements')
+            ->join('achievements', 'user_achievements.achievement_id', '=', 'achievements.id')
+            ->where('user_achievements.user_id', $user->id)
+            ->select('achievements.*', 'user_achievements.achieved_at')
+            ->orderBy('user_achievements.achieved_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Формируем объединенную историю активности
+        $activities = collect();
+
+        // Добавляем пройденные уроки
+        foreach ($user->userLessons as $userLesson) {
+            if ($userLesson->completed && $userLesson->completed_at) {
+                $activities->push([
+                    'type' => 'lesson',
+                    'title' => $userLesson->lesson->title ?? 'Урок',
+                    'description' => 'Урок завершен',
+                    'score' => $userLesson->score,
+                    'time_spent' => $userLesson->time_spent,
+                    'date' => $userLesson->completed_at,
+                    'icon' => 'fas fa-play-circle'
+                ]);
+            }
+        }
+
+        // Добавляем завершенные тесты
+        foreach ($user->testResults as $testResult) {
+            if ($testResult->completed_at) {
+                $activities->push([
+                    'type' => 'test',
+                    'title' => $testResult->test->title ?? 'Тест',
+                    'description' => 'Тест завершен',
+                    'score' => $testResult->score,
+                    'date' => $testResult->completed_at,
+                    'icon' => 'fas fa-clipboard-check'
+                ]);
+            }
+        }
+
+        // Добавляем полученные достижения
+        foreach ($achievementsData as $achievement) {
+            $activities->push([
+                'type' => 'achievement',
+                'title' => $achievement->name,
+                'description' => $achievement->description,
+                'date' => $achievement->achieved_at,
+                'icon' => 'fas fa-trophy'
+            ]);
+        }
+
+        // Сортируем по дате (новые сверху) и ограничиваем 20 записей
+        $activities = $activities->sortByDesc('date')->take(20);
+
+        return view('profile', compact('user', 'activities', 'achievementsData'));
     }
 
     public function updateAvatar(Request $request)

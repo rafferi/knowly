@@ -16,11 +16,12 @@ class Test extends Model
         'title',
         'description',
         'type',
-        'week_number',
         'time_limit',
         'passing_score',
         'max_attempts',
-        'is_active'
+        'is_active',
+        'order',
+        'order_index'  // уберите week_number и оставьте order_index
     ];
 
     protected $casts = [
@@ -91,15 +92,20 @@ class Test extends Model
             return true;
         }
 
+        $userCourse = UserCourse::where('user_id', $user->id)
+            ->where('course_id', $this->course_id)
+            ->whereNull('completed_at')
+            ->first();
+
+        if (!$userCourse) {
+            return false;
+        }
+
         $userProgress = UserLearningProgress::where('user_id', $user->id)
             ->where('course_id', $this->course_id)
             ->first();
 
         if (!$userProgress) {
-            return false;
-        }
-
-        if ($this->week_number && $this->week_number > $userProgress->current_week) {
             return false;
         }
 

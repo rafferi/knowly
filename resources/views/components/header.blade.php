@@ -11,8 +11,18 @@
             <li><a href="/about" class="nav-link {{ request()->is('about') ? 'active' : '' }}">О нас</a></li>
 
             @auth
+                @php
+                    $user = auth()->user();
+                @endphp
+
                 <li><a href="/dashboard" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">Кабинет</a></li>
                 <li><a href="/profile" class="nav-link {{ request()->is('profile') ? 'active' : '' }}">Профиль</a></li>
+
+                @if($user && $user->role === 'admin')
+                    <li><a href="/admin/dashboard" class="nav-link {{ request()->is('admin*') ? 'active' : '' }}">
+                            <i class="fas fa-crown" style="margin-right: 5px;"></i>Админка
+                        </a></li>
+                @endif
             @else
                 <li><a href="#reviews" class="nav-link">Отзывы</a></li>
                 <li><a href="#contact" class="nav-link">Контакты</a></li>
@@ -21,12 +31,21 @@
 
         <div class="nav-auth">
             @auth
-                @if(Auth::user()->avatar_url)
-                    <img src="{{ Auth::user()->avatar_url }}" alt="Аватар" class="nav-avatar">
+                @php
+                    $user = auth()->user();
+                @endphp
+
+                @if($user->avatar_url)
+                    <img src="{{ $user->avatar_url }}" alt="Аватар" class="nav-avatar">
                 @else
                     <i class="fas fa-user nav-avatar-icon"></i>
                 @endif
-                <span class="user-greeting">{{ Auth::user()->name }}</span>
+                <span class="user-greeting">{{ $user->name }}</span>
+
+                @if($user && method_exists($user, 'isAdmin') && $user->isAdmin())
+                    <span class="user-badge" style="background: #ffd700; color: #000; padding: 2px 6px; border-radius: 10px; font-size: 11px; margin-left: 5px;">Админ</span>
+                @endif
+
                 <form action="{{ route('logout') }}" method="POST" class="logout-form">
                     @csrf
                     <button type="submit" class="btn-login">Выход</button>
@@ -52,8 +71,18 @@
         <li><a href="/about" class="mobile-nav-link {{ request()->is('about') ? 'active' : '' }}">О нас</a></li>
 
         @auth
+            @php
+                $user = auth()->user();
+            @endphp
+
             <li><a href="/dashboard" class="mobile-nav-link {{ request()->is('dashboard') ? 'active' : '' }}">Кабинет</a></li>
             <li><a href="/profile" class="mobile-nav-link {{ request()->is('profile') ? 'active' : '' }}">Профиль</a></li>
+
+            @if($user && method_exists($user, 'isAdmin') && $user->isAdmin())
+                <li><a href="/admin/dashboard" class="mobile-nav-link {{ request()->is('admin*') ? 'active' : '' }}">
+                        <i class="fas fa-crown" style="margin-right: 5px;"></i>Админка
+                    </a></li>
+            @endif
         @else
             <li><a href="#reviews" class="mobile-nav-link">Отзывы</a></li>
             <li><a href="#contact" class="mobile-nav-link">Контакты</a></li>
@@ -62,9 +91,27 @@
 
     <div class="mobile-nav-auth">
         @auth
-            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @php
+                $user = auth()->user();
+            @endphp
+
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                @if($user->avatar_url)
+                    <img src="{{ $user->avatar_url }}" alt="Аватар" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                @else
+                    <i class="fas fa-user" style="font-size: 24px; margin-right: 10px;"></i>
+                @endif
+                <div>
+                    <div style="font-weight: bold;">{{ $user->name }}</div>
+                    @if($user && method_exists($user, 'isAdmin') && $user->isAdmin())
+                        <div style="background: #ffd700; color: #000; padding: 2px 6px; border-radius: 10px; font-size: 11px; display: inline-block;">Админ</div>
+                    @endif
+                </div>
+            </div>
+
+            <form action="{{ route('logout') }}" method="POST" class="logout-form" style="width: 100%;">
                 @csrf
-                <button type="submit" class="btn-login">Выход</button>
+                <button type="submit" class="btn-login" style="width: 100%;">Выход</button>
             </form>
         @else
             <a href="/login" class="btn-login">Вход</a>

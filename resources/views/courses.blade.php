@@ -198,7 +198,7 @@
 
                                 @if($userEnrollment)
                                     @if($userEnrollment->canAccessCourse())
-                                        <a href="{{ route('learning.plan', $course->slug) }}" class="btn btn-primary">
+                                        <a href="{{ route('lectures.next', ['courseSlug' => $course->slug]) }}" class="btn btn-primary">
                                             <i class="fas fa-play-circle"></i> Продолжить обучение
                                         </a>
                                     @elseif($userEnrollment->status === 'pending')
@@ -233,8 +233,8 @@
                                 <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-outline">
                                     Подробнее
                                 </a>
-                                <a href="{{ route('learning.plan', $course->slug) }}" class="btn btn-plan">
-                                    <i class="fas fa-graduation-cap"></i> Учебный план
+                                <a href="{{ route('lectures.index', ['courseSlug' => $course->slug]) }}" class="btn btn-plan">
+                                    <i class="fas fa-graduation-cap"></i> Лекции курса
                                 </a>
                             </div>
                         </div>

@@ -9,7 +9,8 @@ class CourseRecommendationController extends Controller
 {
     public function showTest()
     {
-        return view('course-recommendation-test');
+        // Перемещённый шаблон
+        return view('placement.course-recommendation-test');
     }
 
     public function processTest(Request $request)
@@ -31,7 +32,8 @@ class CourseRecommendationController extends Controller
             return redirect()->route('course-recommendation.test');
         }
 
-        return view('course-recommendation-result', compact('recommendation'));
+        // Перемещённый шаблон
+        return view('placement.course-recommendation-result', compact('recommendation'));
     }
 
     private function calculateRecommendation($answers)

@@ -188,15 +188,15 @@ class TestController extends Controller
         }
 
         // Проверяем доступ по неделям (если тест привязан к неделе)
-        if ($test->week_number) {
-            $userProgress = $user->userLearningProgress()
-                ->where('course_id', $test->course_id)
-                ->first();
-
-            if ($userProgress && $test->week_number > $userProgress->current_week) {
-                return false;
-            }
-        }
+//        if ($test->week_number) {
+//            $userProgress = $user->userLearningProgress()
+//                ->where('course_id', $test->course_id)
+//                ->first();
+//
+//            if ($userProgress && $test->week_number > $userProgress->current_week) {
+//                return false;
+//            }
+//        }
 
         return true;
     }

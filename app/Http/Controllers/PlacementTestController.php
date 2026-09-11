@@ -23,7 +23,6 @@ class PlacementTestController extends Controller
         ]);
     }
 
-    // Остальные методы оставляем без изменений...
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -46,27 +45,27 @@ class PlacementTestController extends Controller
             }
         }
 
-        // Определяем уровень на основе баллов
-        $level = $this->calculateLevel($score, $totalQuestions);
-
-        // Сохраняем результаты
+        // Сохраняем результаты теста
         $test = PlacementTest::create([
             'user_id' => $user->id,
             'score' => $score,
-            'level' => $level,
+            'level' => $user->level, // Сохраняем текущий уровень пользователя
             'answers' => $answers,
             'total_questions' => $totalQuestions,
             'correct_answers' => $correctAnswers,
             'completed_at' => now(),
         ]);
 
-        // Обновляем уровень пользователя
-        $user->update([
-            'level' => $level,
-            'xp' => $user->xp + $score * 10,
-        ]);
+        // Начисляем XP за тест (10 XP за каждый правильный ответ)
+        $xpToAdd = $score * 10;
+        $user->addXp($xpToAdd, 'placement_test', $test->id);
 
-        return redirect()->route('placement-test.results', $test);
+        // НЕ перезаписываем уровень здесь! Метод addXp сам обновит его при необходимости
+        // Определяем рекомендованный уровень только для отображения результатов
+        $recommendedLevel = $this->calculateRecommendedLevel($score, $totalQuestions);
+
+        return redirect()->route('placement-test.results', $test)
+            ->with('recommended_level', $recommendedLevel);
     }
 
     public function results(PlacementTest $test)
@@ -80,13 +79,17 @@ class PlacementTestController extends Controller
             'master' => 'Мастер (C2)'
         ];
 
-        // Рекомендованные курсы в зависимости от уровня
-        $recommendedCourses = $this->getRecommendedCourses($test->level);
+        // Получаем рекомендованный уровень из сессии или рассчитываем заново
+        $recommendedLevel = session('recommended_level') ??
+            $this->calculateRecommendedLevel($test->score, $test->total_questions);
 
-        return view('placement-test-results', compact('test', 'levelTitles', 'recommendedCourses'));
+        // Рекомендованные курсы в зависимости от рекомендованного уровня
+        $recommendedCourses = $this->getRecommendedCourses($recommendedLevel);
+
+        return view('placement-test-results', compact('test', 'levelTitles', 'recommendedCourses', 'recommendedLevel'));
     }
 
-    private function calculateLevel($score, $totalQuestions)
+    private function calculateRecommendedLevel($score, $totalQuestions)
     {
         $percentage = ($score / $totalQuestions) * 100;
 
@@ -94,7 +97,8 @@ class PlacementTestController extends Controller
         if ($percentage < 40) return 'elementary';
         if ($percentage < 60) return 'intermediate';
         if ($percentage < 80) return 'upper_intermediate';
-        return 'advanced';
+        if ($percentage < 95) return 'advanced';
+        return 'master';
     }
 
     private function getRecommendedCourses($level)
@@ -167,6 +171,20 @@ class PlacementTestController extends Controller
                     'title' => 'Advanced Communication',
                     'description' => 'Продвинутое общение и дебаты',
                     'level' => 'C1-C2',
+                    'link' => '/courses?level=advanced'
+                ]
+            ],
+            'master' => [
+                [
+                    'title' => 'Professional Mastery',
+                    'description' => 'Совершенствование профессиональных навыков',
+                    'level' => 'C2',
+                    'link' => '/courses?level=advanced'
+                ],
+                [
+                    'title' => 'Expert Speaking',
+                    'description' => 'Публичные выступления на английском',
+                    'level' => 'C2',
                     'link' => '/courses?level=advanced'
                 ]
             ]

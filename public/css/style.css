@@ -1,13 +1,14 @@
+/* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ И СБРОС СТИЛЕЙ ===== */
 :root {
     --nimbus-cloud: #D5D5D8;
     --ultimate-gray: #939597;
-    --grenadine: #5abde8;
-    --black-beauty: #27272A;
+    --grenadine: #58CC02;
+    --black-beauty: #4B4B4B;
     --white: #ffffff;
     --gray-light: #f8f9fa;
     --gray: #6c757d;
     --gray-dark: #343a40;
-    --light-blue: #7DA0CA;
+    --light-blue: #89E219;
 }
 
 * {
@@ -71,14 +72,14 @@ body {
 .logo-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
     color: white;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 .logo-text {
@@ -164,13 +165,13 @@ body {
     border-radius: 10px;
     transition: all 0.3s ease;
     font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 .btn-signup:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 6px 20px rgba(88, 204, 2, 0.4);
 }
 
 .mobile-menu-btn {
@@ -324,7 +325,7 @@ body {
     font-weight: 600;
     display: inline-block;
     margin-bottom: 2rem;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .hero-title {
@@ -346,7 +347,7 @@ body {
     left: 0;
     width: 100%;
     height: 8px;
-    background: rgba(223, 63, 50, 0.2);
+    background: rgba(88, 204, 2, 0.2);
     z-index: -1;
     border-radius: 4px;
 }
@@ -399,13 +400,13 @@ body {
 .btn-primary {
     background: var(--grenadine);
     color: var(--white);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-primary:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 10px 25px rgba(88, 204, 2, 0.4);
 }
 
 .btn-secondary {
@@ -610,7 +611,7 @@ body {
 .card-icon {
     width: 45px;
     height: 45px;
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -839,7 +840,7 @@ body {
 .feature-icon-wrapper {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -855,7 +856,7 @@ body {
     left: -5px;
     right: -5px;
     bottom: -5px;
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     border-radius: 50%;
     opacity: 0.2;
     z-index: -1;
@@ -883,7 +884,7 @@ body {
     right: 0;
     width: 100px;
     height: 100px;
-    background: linear-gradient(45deg, transparent, rgba(223, 63, 50, 0.05), transparent);
+    background: linear-gradient(45deg, transparent, rgba(88, 204, 2, 0.05), transparent);
     border-radius: 0 20px 0 100px;
     transition: transform 0.3s ease;
 }
@@ -944,7 +945,7 @@ body {
     justify-content: center;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .step-icon {
@@ -1121,7 +1122,7 @@ body {
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 600;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .pricing-header {
@@ -1951,14 +1952,14 @@ body {
 .auth-logo-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     color: white;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 .auth-logo-text {
@@ -2012,7 +2013,7 @@ body {
 .form-input:focus {
     outline: none;
     border-color: var(--grenadine);
-    box-shadow: 0 0 0 3px rgba(223, 63, 50, 0.1);
+    box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.1);
     transform: translateY(-1px);
 }
 
@@ -2075,7 +2076,7 @@ body {
 }
 
 .forgot-password:hover {
-    color: #c5362b;
+    color: #89E219;
     text-decoration: underline;
 }
 
@@ -2090,7 +2091,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
@@ -2112,9 +2113,9 @@ body {
 }
 
 .auth-button:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .auth-button:active {
@@ -2201,7 +2202,7 @@ body {
 }
 
 .auth-link:hover {
-    color: #c5362b;
+    color: #89E219;
     text-decoration: underline;
 }
 
@@ -2406,7 +2407,7 @@ body {
     margin: 0 auto 2rem;
     color: white;
     font-size: 3rem;
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.3);
 }
 
 .profile-tabs {
@@ -2605,7 +2606,7 @@ body {
     margin: 0 auto 2rem;
     color: white;
     font-size: 3rem;
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.3);
     position: relative;
 }
 
@@ -2783,7 +2784,7 @@ body {
 
 .course-header {
     padding: 1.5rem;
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: white;
     position: relative;
 }
@@ -3166,7 +3167,7 @@ body {
     margin: 0 auto 1rem;
     color: white;
     font-size: 3rem;
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.3);
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -3322,12 +3323,12 @@ body {
 
 .file-upload-area:hover {
     border-color: var(--grenadine);
-    background: rgba(223, 63, 50, 0.05);
+    background: rgba(88, 204, 2, 0.05);
 }
 
 .file-upload-area.dragover {
     border-color: var(--grenadine);
-    background: rgba(223, 63, 50, 0.1);
+    background: rgba(88, 204, 2, 0.1);
 }
 
 .upload-icon {
@@ -3524,7 +3525,7 @@ input:checked + .slider:before {
     justify-content: center;
     color: white;
     font-size: 2.5rem;
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.3);
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
@@ -3568,7 +3569,7 @@ input:checked + .slider:before {
     border-radius: 25px;
     font-size: 0.9rem;
     font-weight: 600;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .xp-count {
@@ -3581,7 +3582,7 @@ input:checked + .slider:before {
 }
 
 .motivation-quote {
-    background: linear-gradient(135deg, rgba(223, 63, 50, 0.05), rgba(125, 160, 202, 0.05));
+    background: linear-gradient(135deg, rgba(88, 204, 2, 0.05), rgba(125, 160, 202, 0.05));
     padding: 1.5rem;
     border-radius: 15px;
     border-left: 4px solid var(--grenadine);
@@ -3724,7 +3725,7 @@ input:checked + .slider:before {
 }
 
 .see-all:hover {
-    color: #c5362b;
+    color: #89E219;
     transform: translateX(3px);
 }
 
@@ -3748,7 +3749,7 @@ input:checked + .slider:before {
 
 .course-progress-item:hover {
     transform: translateX(5px);
-    background: rgba(223, 63, 50, 0.03);
+    background: rgba(88, 204, 2, 0.03);
 }
 
 .course-info {
@@ -3839,8 +3840,8 @@ input:checked + .slider:before {
 }
 
 .lesson-item.upcoming {
-    background: linear-gradient(135deg, rgba(223, 63, 50, 0.05), rgba(125, 160, 202, 0.05));
-    border-color: rgba(223, 63, 50, 0.2);
+    background: linear-gradient(135deg, rgba(88, 204, 2, 0.05), rgba(125, 160, 202, 0.05));
+    border-color: rgba(88, 204, 2, 0.2);
 }
 
 .lesson-item:hover {
@@ -3907,7 +3908,7 @@ input:checked + .slider:before {
 }
 
 .join-btn:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: scale(1.1);
 }
 
@@ -3944,7 +3945,7 @@ input:checked + .slider:before {
 }
 
 .achievement-item.unlocked {
-    background: linear-gradient(135deg, rgba(223, 63, 50, 0.05), rgba(125, 160, 202, 0.05));
+    background: linear-gradient(135deg, rgba(88, 204, 2, 0.05), rgba(125, 160, 202, 0.05));
 }
 
 .achievement-item.locked {
@@ -3997,7 +3998,7 @@ input:checked + .slider:before {
 }
 
 .view-more:hover {
-    color: #c5362b;
+    color: #89E219;
     transform: translateX(3px);
 }
 
@@ -4039,13 +4040,13 @@ input:checked + .slider:before {
 
 .quick-action:hover {
     transform: translateX(5px);
-    background: rgba(223, 63, 50, 0.05);
-    border-color: rgba(223, 63, 50, 0.3);
+    background: rgba(88, 204, 2, 0.05);
+    border-color: rgba(88, 204, 2, 0.3);
 }
 
 .quick-action.primary {
-    background: linear-gradient(135deg, rgba(223, 63, 50, 0.1), rgba(125, 160, 202, 0.1));
-    border-color: rgba(223, 63, 50, 0.3);
+    background: linear-gradient(135deg, rgba(88, 204, 2, 0.1), rgba(125, 160, 202, 0.1));
+    border-color: rgba(88, 204, 2, 0.3);
 }
 
 .action-icon {
@@ -4463,7 +4464,7 @@ input:checked + .slider:before {
     font-weight: 600;
     display: inline-block;
     margin-bottom: 2rem;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .courses-hero-title {
@@ -4485,7 +4486,7 @@ input:checked + .slider:before {
     left: 0;
     width: 100%;
     height: 8px;
-    background: rgba(223, 63, 50, 0.2);
+    background: rgba(88, 204, 2, 0.2);
     z-index: -1;
     border-radius: 4px;
 }
@@ -4546,7 +4547,7 @@ input:checked + .slider:before {
 
 .level-marker.active::before {
     background: var(--grenadine);
-    box-shadow: 0 0 0 3px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.3);
 }
 
 .level-name {
@@ -4910,13 +4911,13 @@ input:checked + .slider:before {
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-primary-new:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .btn-secondary-new {
@@ -4980,7 +4981,7 @@ input:checked + .slider:before {
 .level-marker-new.active-new::before {
     background: var(--grenadine);
     border-color: var(--grenadine);
-    box-shadow: 0 0 0 4px rgba(223, 63, 50, 0.2);
+    box-shadow: 0 0 0 4px rgba(88, 204, 2, 0.2);
 }
 
 .level-name-new {
@@ -5270,7 +5271,7 @@ input:checked + .slider:before {
 }
 
 .about-badge-new {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: var(--white);
     padding: 0.7rem 1.5rem;
     border-radius: 25px;
@@ -5278,7 +5279,7 @@ input:checked + .slider:before {
     font-weight: 600;
     display: inline-block;
     margin-bottom: 2rem;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
     animation: pulse 2s infinite;
 }
 
@@ -5308,7 +5309,7 @@ input:checked + .slider:before {
     left: 0;
     width: 100%;
     height: 8px;
-    background: rgba(223, 63, 50, 0.2);
+    background: rgba(88, 204, 2, 0.2);
     z-index: -1;
     border-radius: 4px;
     animation: underlineWave 3s ease-in-out infinite;
@@ -5343,13 +5344,13 @@ input:checked + .slider:before {
     align-items: center;
     gap: 0.5rem;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-primary-about:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .btn-secondary-about {
@@ -5827,7 +5828,7 @@ input:checked + .slider:before {
 
 .placement-test-options .setting-item:hover {
     border-color: var(--grenadine);
-    background: rgba(223, 63, 50, 0.05);
+    background: rgba(88, 204, 2, 0.05);
 }
 
 .placement-test-option-input:checked + span {
@@ -5868,7 +5869,7 @@ input:checked + .slider:before {
 
 /* Заголовок теста */
 .placement-test-header {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: var(--white);
     padding: 3rem;
     text-align: center;
@@ -5978,7 +5979,7 @@ input:checked + .slider:before {
 
 .question-card.active {
     border-color: var(--grenadine);
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.1);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.1);
     transform: translateY(-2px);
 }
 
@@ -6000,7 +6001,7 @@ input:checked + .slider:before {
     border-radius: 20px;
     font-weight: 600;
     font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 .question-level {
@@ -6054,15 +6055,15 @@ input:checked + .slider:before {
 }
 
 .option-card:hover {
-    background: rgba(223, 63, 50, 0.05);
+    background: rgba(88, 204, 2, 0.05);
     border-color: var(--grenadine);
     transform: translateX(5px);
 }
 
 .option-card.selected {
-    background: rgba(223, 63, 50, 0.1);
+    background: rgba(88, 204, 2, 0.1);
     border-color: var(--grenadine);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.2);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.2);
 }
 
 .option-content {
@@ -6139,13 +6140,13 @@ input:checked + .slider:before {
 .btn-next {
     background: var(--grenadine);
     color: var(--white);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-next:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateX(3px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .btn-submit {
@@ -6158,7 +6159,7 @@ input:checked + .slider:before {
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 20px rgba(88, 204, 2, 0.3);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -6183,7 +6184,7 @@ input:checked + .slider:before {
 
 .btn-submit:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.4);
 }
 
 /* Страница результатов */
@@ -6215,7 +6216,7 @@ input:checked + .slider:before {
 }
 
 .results-header {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: var(--white);
     padding: 4rem;
     text-align: center;
@@ -6265,7 +6266,7 @@ input:checked + .slider:before {
     font-weight: 700;
     display: inline-block;
     margin-bottom: 2rem;
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -6614,6 +6615,12 @@ input:checked + .slider:before {
     margin-top: 80px;
     position: relative;
 }
+.lesson-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    padding-top: 100px;
+}
 
 .free-lesson-hero {
     position: relative;
@@ -6643,7 +6650,7 @@ input:checked + .slider:before {
 }
 
 .free-lesson-header {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: var(--white);
     padding: 3rem;
     text-align: center;
@@ -6674,7 +6681,7 @@ input:checked + .slider:before {
     margin-bottom: 1.5rem;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .free-lesson-header h1 {
@@ -6907,13 +6914,13 @@ input:checked + .slider:before {
     cursor: pointer;
     transition: all 0.3s ease;
     margin: 0 auto;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 .btn-audio:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 6px 20px rgba(88, 204, 2, 0.4);
 }
 
 /* Интерактивные упражнения */
@@ -6953,7 +6960,7 @@ input:checked + .slider:before {
 .form-input:focus {
     outline: none;
     border-color: var(--grenadine);
-    box-shadow: 0 0 0 3px rgba(223, 63, 50, 0.1);
+    box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.1);
     transform: translateY(-1px);
 }
 
@@ -6966,16 +6973,16 @@ input:checked + .slider:before {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .btn-check:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .exercise-feedback {
@@ -7067,13 +7074,13 @@ input:checked + .slider:before {
     margin: 1rem 0;
     transition: all 0.3s ease;
     font-weight: 600;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-play-audio:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .quiz-options {
@@ -7096,7 +7103,7 @@ input:checked + .slider:before {
 
 .quiz-option:hover {
     border-color: var(--grenadine);
-    background: rgba(223, 63, 50, 0.05);
+    background: rgba(88, 204, 2, 0.05);
     transform: translateY(-2px);
 }
 
@@ -7207,7 +7214,7 @@ input:checked + .slider:before {
 .dialog-input:focus {
     outline: none;
     border-color: var(--grenadine);
-    box-shadow: 0 0 0 3px rgba(223, 63, 50, 0.1);
+    box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.1);
 }
 
 .practice-buttons {
@@ -7234,7 +7241,7 @@ input:checked + .slider:before {
 .btn-practice {
     background: var(--grenadine);
     color: var(--white);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-record {
@@ -7244,9 +7251,9 @@ input:checked + .slider:before {
 }
 
 .btn-practice:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .btn-record:hover {
@@ -7353,7 +7360,7 @@ input:checked + .slider:before {
     background: var(--grenadine);
     color: var(--white);
     border-color: var(--grenadine);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-prev:hover:not(:disabled) {
@@ -7363,9 +7370,9 @@ input:checked + .slider:before {
 }
 
 .btn-next:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateX(3px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 .progress-indicator {
@@ -7853,13 +7860,13 @@ input:checked + .slider:before {
 .btn-primary {
     background: var(--grenadine);
     color: var(--white);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-primary:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
     color: var(--white);
 }
 
@@ -7893,7 +7900,7 @@ input:checked + .slider:before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(223, 63, 50, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(88, 204, 2, 0.1), transparent);
     transition: left 0.5s;
 }
 
@@ -7905,12 +7912,12 @@ input:checked + .slider:before {
     background: var(--grenadine);
     color: var(--white);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.3);
 }
 
 /* Новая кнопка для "Учебный план" с улучшенным дизайном */
 .btn-plan {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: var(--white);
     border: none;
     padding: 1rem 2rem;
@@ -7921,7 +7928,7 @@ input:checked + .slider:before {
     align-items: center;
     gap: 0.6rem;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(223, 63, 50, 0.25);
+    box-shadow: 0 5px 20px rgba(88, 204, 2, 0.25);
     position: relative;
     overflow: hidden;
 }
@@ -7943,7 +7950,7 @@ input:checked + .slider:before {
 
 .btn-plan:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.35);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.35);
     color: var(--white);
 }
 
@@ -8072,7 +8079,7 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    background: linear-gradient(90deg, var(--grenadine), #89E219);
 }
 
 .popular-badge {
@@ -8086,12 +8093,12 @@ input:checked + .slider:before {
     font-size: 0.85rem;
     font-weight: 600;
     z-index: 2;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 /* Улучшенный внешний вид уровня курса */
 .level-badge {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: white;
     padding: 0.4rem 1rem;
     border-radius: 15px;
@@ -8099,7 +8106,7 @@ input:checked + .slider:before {
     font-weight: 600;
     display: inline-block;
     margin-top: 0.5rem;
-    box-shadow: 0 3px 10px rgba(223, 63, 50, 0.2);
+    box-shadow: 0 3px 10px rgba(88, 204, 2, 0.2);
 }
 
 /* Статистика курса */
@@ -8223,13 +8230,13 @@ input:checked + .slider:before {
 .btn-primary {
     background: var(--grenadine);
     color: var(--white);
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .btn-primary:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
     color: var(--white);
 }
 
@@ -8263,7 +8270,7 @@ input:checked + .slider:before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(223, 63, 50, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(88, 204, 2, 0.1), transparent);
     transition: left 0.5s;
 }
 
@@ -8275,12 +8282,12 @@ input:checked + .slider:before {
     background: var(--grenadine);
     color: var(--white);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.3);
 }
 
 /* Новая кнопка для "Учебный план" с улучшенным дизайном */
 .btn-plan {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: var(--white);
     border: none;
     padding: 1rem 2rem;
@@ -8291,7 +8298,7 @@ input:checked + .slider:before {
     align-items: center;
     gap: 0.6rem;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(223, 63, 50, 0.25);
+    box-shadow: 0 5px 20px rgba(88, 204, 2, 0.25);
     position: relative;
     overflow: hidden;
 }
@@ -8313,7 +8320,7 @@ input:checked + .slider:before {
 
 .btn-plan:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(223, 63, 50, 0.35);
+    box-shadow: 0 10px 30px rgba(88, 204, 2, 0.35);
     color: var(--white);
 }
 
@@ -8442,7 +8449,7 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    background: linear-gradient(90deg, var(--grenadine), #89E219);
 }
 
 .popular-badge {
@@ -8456,12 +8463,12 @@ input:checked + .slider:before {
     font-size: 0.85rem;
     font-weight: 600;
     z-index: 2;
-    box-shadow: 0 4px 12px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 4px 12px rgba(88, 204, 2, 0.3);
 }
 
 /* Улучшенный внешний вид уровня курса */
 .level-badge {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     color: white;
     padding: 0.4rem 1rem;
     border-radius: 15px;
@@ -8469,7 +8476,7 @@ input:checked + .slider:before {
     font-weight: 600;
     display: inline-block;
     margin-top: 0.5rem;
-    box-shadow: 0 3px 10px rgba(223, 63, 50, 0.2);
+    box-shadow: 0 3px 10px rgba(88, 204, 2, 0.2);
 }
 
 /* Статистика курса */
@@ -8561,12 +8568,12 @@ input:checked + .slider:before {
 
 /* Хедер курса */
 .course-plan-header {
-    background: linear-gradient(135deg, var(--grenadine) 0%, #c5362b 100%);
+    background: linear-gradient(135deg, var(--grenadine) 0%, #89E219 100%);
     border-radius: 24px;
     padding: 3rem;
     margin-bottom: 2.5rem;
     color: white;
-    box-shadow: 0 20px 40px rgba(223, 63, 50, 0.2);
+    box-shadow: 0 20px 40px rgba(88, 204, 2, 0.2);
     position: relative;
     overflow: hidden;
 }
@@ -8623,13 +8630,13 @@ input:checked + .slider:before {
 
 .progress-card .progress {
     height: 10px;
-    background: rgba(223, 63, 50, 0.1);
+    background: rgba(88, 204, 2, 0.1);
     border-radius: 10px;
     overflow: hidden;
 }
 
 .progress-card .progress-bar {
-    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    background: linear-gradient(90deg, var(--grenadine), #89E219);
     border-radius: 10px;
 }
 
@@ -8668,7 +8675,7 @@ input:checked + .slider:before {
     color: var(--white);
     border-color: var(--grenadine);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.3);
 }
 
 /* Модули курса */
@@ -8687,7 +8694,7 @@ input:checked + .slider:before {
 }
 
 .card-header {
-    background: linear-gradient(135deg, var(--grenadine), #c5362b);
+    background: linear-gradient(135deg, var(--grenadine), #89E219);
     padding: 2rem;
     border: none;
 }
@@ -8834,7 +8841,7 @@ input:checked + .slider:before {
 }
 
 .weekly-progress .progress-bar {
-    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    background: linear-gradient(90deg, var(--grenadine), #89E219);
     border-radius: 3px;
 }
 
@@ -8864,7 +8871,7 @@ input:checked + .slider:before {
 }
 
 .breadcrumb-item a:hover {
-    color: #c5362b;
+    color: #89E219;
     transform: translateX(2px);
 }
 
@@ -8901,22 +8908,22 @@ input:checked + .slider:before {
 
 /* Прогресс недели */
 .week-progress {
-    background: rgba(223, 63, 50, 0.05);
+    background: rgba(88, 204, 2, 0.05);
     padding: 1.5rem;
     border-radius: 16px;
     margin-top: 1.5rem;
-    border: 1px solid rgba(223, 63, 50, 0.1);
+    border: 1px solid rgba(88, 204, 2, 0.1);
 }
 
 .week-progress .progress {
     height: 10px;
-    background: rgba(223, 63, 50, 0.1);
+    background: rgba(88, 204, 2, 0.1);
     border-radius: 5px;
     overflow: hidden;
 }
 
 .week-progress .progress-bar {
-    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    background: linear-gradient(90deg, var(--grenadine), #89E219);
     border-radius: 5px;
 }
 
@@ -8949,7 +8956,7 @@ input:checked + .slider:before {
 
 .lessons-list .dashboard-card.border-success {
     border-color: var(--grenadine);
-    background: rgba(223, 63, 50, 0.02);
+    background: rgba(88, 204, 2, 0.02);
 }
 
 .lesson-order {
@@ -9007,9 +9014,9 @@ input:checked + .slider:before {
 }
 
 .lessons-list .btn-primary-new:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.3);
 }
 
 .lessons-list .btn-outline-success {
@@ -9102,13 +9109,13 @@ input:checked + .slider:before {
     background: var(--grenadine);
     color: white;
     border: none;
-    box-shadow: 0 5px 15px rgba(223, 63, 50, 0.3);
+    box-shadow: 0 5px 15px rgba(88, 204, 2, 0.3);
 }
 
 .week-navigation-footer .btn-primary-new:hover {
-    background: #c5362b;
+    background: #89E219;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(223, 63, 50, 0.4);
+    box-shadow: 0 8px 25px rgba(88, 204, 2, 0.4);
 }
 
 /* ===== РЕСПОНСИВНОСТЬ ===== */
@@ -9347,6 +9354,6 @@ html {
     left: 0;
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, var(--grenadine), #c5362b);
+    background: linear-gradient(90deg, var(--grenadine), #89E219);
     border-radius: 2px;
 }
